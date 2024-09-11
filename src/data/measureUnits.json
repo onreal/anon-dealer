@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Milliliter",
+    "code": "ml"
+  },
+  {
+    "name": "Litre",
+    "code": "l"
+  },
+  {
+    "name": "Tone",
+    "code": "t"
+  },
+  {
+    "name": "Kilogram",
+    "code": "kg"
+  },
+  {
+    "name": "Gram",
+    "code": "g"
+  },
+  {
+    "name": "Ounce",
+    "code": "oz"
+  }
+]

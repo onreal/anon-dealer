@@ -1,0 +1,21 @@
+{
+  "registration": {
+    "pin": "Pin",
+    "pinPlaceholder": "Set a PIN to protect your APP. If forget cannot be recovered! (optional)",
+    "questionTrade": "What do you trade?",
+    "questionTradePlaceholder": "What do you trade?",
+    "privacyDisclaimer": "Please note, while ANDE don't log neither store or process any of this information outside of your device, have in mind that your phone can be still hacked and this information to be fetched by any authorized third party trash. We recommend to use the open source backend of ANDE on your own premises and encrypt/decrypt your local storage. Become A PRO subscriber in order to get 100% anonymity.",
+    "blackQuestion": "On the blackmarket?",
+    "yes": "Yes",
+    "no": "No",
+    "suggestBackend": "We strongly suggest to use a backend server in order to encrypt/decrypt all data on your device.",
+    "questionBackend": "Use backend server?",
+    "currencyQuestion": "What is your currency?",
+    "unitsQuestion": "What is one unit from your inventory?",
+    "agree": "I agree, that I'm solely responsible for my intentions using this app. I'm solely responsible for using this app.",
+    "backendUrl": "Set the backend URL endpoint",
+    "backendUrlPlaceholder": "Get your endpoint from {domain}/safe",
+    "backendToken": "Set your Access Token",
+    "backendTokenPlaceholder": "Get your token from {domain}/safe"
+  }
+}

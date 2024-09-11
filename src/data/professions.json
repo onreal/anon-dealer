@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Drugs",
+    "id": "drugs"
+  },
+  {
+    "name": "Grocery",
+    "id": "grocery"
+  },
+  {
+    "name": "Vehicles",
+    "id": "vehicles"
+  }
+]
