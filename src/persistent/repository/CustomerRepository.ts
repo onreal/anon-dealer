@@ -28,10 +28,14 @@ export class CustomerRepository extends Repository{
                 dataType: DATA_TYPE.String
             },
             CreatedOn: {
-                dataType: DATA_TYPE.DateTime
+                dataType: DATA_TYPE.DateTime,
+                notNull: true,
+                encrypt: true
             },
             ModifiedOn: {
-                dataType: DATA_TYPE.DateTime
+                dataType: DATA_TYPE.DateTime,
+                notNull: true,
+                encrypt: true
             }
         }
     };

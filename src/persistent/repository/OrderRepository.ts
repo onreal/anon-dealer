@@ -41,6 +41,15 @@ export class OrderRepository extends Repository{
             },
             Notes: {
                 dataType: DATA_TYPE.String
+            CreatedOn: {
+                dataType: DATA_TYPE.DateTime,
+                notNull: true,
+                encrypt: true
+            },
+            ModifiedOn: {
+                dataType: DATA_TYPE.DateTime,
+                notNull: true,
+                encrypt: true
             }
         }
     };

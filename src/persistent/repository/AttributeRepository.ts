@@ -20,7 +20,7 @@ export class AttributeRepository extends Repository{
                 encrypt: true
             },
             CreatedOn: {
-                dataType: DATA_TYPE.String,
+                dataType: DATA_TYPE.DateTime,
                 notNull: true,
                 encrypt: true
             }

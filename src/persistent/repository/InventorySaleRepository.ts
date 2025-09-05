@@ -37,15 +37,16 @@ export class InventorySaleRepository extends Repository{
                 encrypt: true
             },
             Position: {
-                dataType: DATA_TYPE.Object
+                dataType: DATA_TYPE.Object,
+                encrypt: true
             },
             CreatedOn: {
-                dataType: DATA_TYPE.String,
+                dataType: DATA_TYPE.DateTime,
                 notNull: true,
                 encrypt: true
             },
             ModifiedOn: {
-                dataType: DATA_TYPE.String,
+                dataType: DATA_TYPE.DateTime,
                 notNull: true,
                 encrypt: true
             }
