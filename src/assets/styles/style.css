@@ -1,3 +1,28 @@
+/* Universal reset - must be first to override user agent stylesheet */
+* {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Specific overrides for html and body */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Most aggressive reset for body */
+html body, body, html body[style] {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -78,14 +103,38 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
   min-width: 320px;
-  min-height: 100vh;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  height: 100vh;
+  background-color: #ffffff;
+  color: #1e293b;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Additional specificity to override user agent stylesheet */
+html body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Maximum specificity override */
+html body[style] {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Nuclear option - override everything */
+html > body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Dark mode body styles */
+.dark body {
+  background-color: #0f172a;
+  color: #f8fafc;
 }
 
 h1 {

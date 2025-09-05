@@ -51,23 +51,44 @@ const logOut = async () => {
 
 <style scoped>
 .navigation-menu {
-  background-color: var(--bg-secondary) !important;
-  border-top: 1px solid var(--border-primary) !important;
+  background-color: #f8fafc !important;
+  border-top: 1px solid #e2e8f0 !important;
 }
 
 .navigation-menu .el-menu-item {
-  color: var(--text-primary) !important;
+  color: #1e293b !important;
   border-bottom: 2px solid transparent !important;
 }
 
 .navigation-menu .el-menu-item:hover {
-  background-color: var(--bg-hover) !important;
-  color: var(--border-focus) !important;
+  background-color: #f1f5f9 !important;
+  color: #3b82f6 !important;
 }
 
 .navigation-menu .el-menu-item.is-active {
-  background-color: var(--bg-hover) !important;
-  color: var(--border-focus) !important;
-  border-bottom-color: var(--border-focus) !important;
+  background-color: #f1f5f9 !important;
+  color: #3b82f6 !important;
+  border-bottom-color: #3b82f6 !important;
+}
+
+/* Dark mode styles */
+.dark .navigation-menu {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+}
+
+.dark .navigation-menu .el-menu-item {
+  color: #f8fafc !important;
+}
+
+.dark .navigation-menu .el-menu-item:hover {
+  background-color: #334155 !important;
+  color: #60a5fa !important;
+}
+
+.dark .navigation-menu .el-menu-item.is-active {
+  background-color: #334155 !important;
+  color: #60a5fa !important;
+  border-bottom-color: #60a5fa !important;
 }
 </style>

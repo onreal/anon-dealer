@@ -143,10 +143,10 @@ export default {
 }
 
 .login-card {
-  background: var(--bg-card);
+  background: white;
   border-radius: 12px;
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border-primary);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
   padding: 40px;
   width: 100%;
   max-width: 400px;
@@ -158,14 +158,14 @@ export default {
 }
 
 .login-header h2 {
-  color: var(--text-primary);
+  color: #1e293b;
   margin: 0 0 8px 0;
   font-size: 28px;
   font-weight: 600;
 }
 
 .login-header p {
-  color: var(--text-secondary);
+  color: #64748b;
   margin: 0;
   font-size: 14px;
 }
@@ -195,12 +195,30 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 12px;
   margin: 0;
 }
 
 .security-note .el-icon {
   color: #67c23a;
+}
+
+/* Dark mode styles */
+.dark .login-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark .login-header h2 {
+  color: #f8fafc;
+}
+
+.dark .login-header p {
+  color: #cbd5e1;
+}
+
+.dark .security-note {
+  color: #cbd5e1;
 }
 </style>

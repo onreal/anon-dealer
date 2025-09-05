@@ -2,10 +2,10 @@
   <ElContainer>
     <ElHeader>
           <img
-              src="https://pro.formkit.com/logo.svg"
-              alt="FormKit Logo"
-              width="244"
-              height="50"
+              src="/logo.svg"
+              alt="Anon Dealer Logo"
+              width="200"
+              height="60"
               class="logo"
           >
     </ElHeader>
@@ -69,7 +69,7 @@ initializeDarkMode();
 }
 
 .logo {
-  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+  /* No filter needed - logo is designed to work in light mode */
   transition: filter 0.3s ease;
 }
 
@@ -95,6 +95,7 @@ initializeDarkMode();
 }
 
 .dark .logo {
-  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+  /* Invert colors for dark mode */
+  filter: invert(1) hue-rotate(180deg);
 }
 </style>

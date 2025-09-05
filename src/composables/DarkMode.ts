@@ -17,19 +17,15 @@ export function useDarkMode() {
 
   // Apply dark mode to document
   const applyDarkMode = () => {
-    console.log('Applying dark mode:', isDark.value)
     if (isDark.value) {
       document.documentElement.classList.add('dark')
-      console.log('Added dark class to document')
     } else {
       document.documentElement.classList.remove('dark')
-      console.log('Removed dark class from document')
     }
   }
 
   // Toggle dark mode
   const toggleDarkMode = () => {
-    console.log('Toggling dark mode from', isDark.value, 'to', !isDark.value)
     isDark.value = !isDark.value
     localStorage.setItem('anon_dark_mode', isDark.value.toString())
     applyDarkMode()

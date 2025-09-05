@@ -445,51 +445,109 @@ export default {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background-color: #f8fafc;
+  min-height: calc(100vh - 120px);
 }
 
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 20px;
   margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-primary);
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
 }
 
 .header-content h1 {
   margin: 0 0 8px 0;
-  color: var(--text-primary);
-  font-size: 32px;
+  color: #1e293b;
+  font-size: 28px;
   font-weight: 600;
 }
 
 .header-content p {
   margin: 0;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 16px;
 }
 
 .header-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
+  width: 100%;
+}
+
+.header-actions .el-button {
+  width: 100%;
+  justify-content: center;
+  font-size: 14px;
+  padding: 12px 16px;
+}
+
+.header-actions .el-button .el-icon {
+  margin-right: 6px;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+  .dashboard-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+  
+  .header-content h1 {
+    font-size: 32px;
+  }
+  
+  .header-actions {
+    display: flex;
+    grid-template-columns: none;
+    width: auto;
+    flex-wrap: wrap;
+  }
+  
+  .header-actions .el-button {
+    width: auto;
+    min-width: 120px;
+  }
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
   margin-bottom: 40px;
 }
 
+/* Mobile optimization */
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
 .stat-card {
-  background: var(--bg-card);
+  background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   gap: 16px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .stat-icon {
@@ -513,12 +571,12 @@ export default {
   margin: 0 0 4px 0;
   font-size: 28px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #1e293b;
 }
 
 .stat-content p {
   margin: 0;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 14px;
 }
 
@@ -528,7 +586,7 @@ export default {
 
 .quick-actions h2 {
   margin: 0 0 20px 0;
-  color: var(--text-primary);
+  color: #1e293b;
   font-size: 24px;
   font-weight: 600;
 }
@@ -540,11 +598,11 @@ export default {
 }
 
 .action-card {
-  background: var(--bg-card);
+  background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -552,35 +610,35 @@ export default {
 
 .action-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-focus);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
 }
 
 .action-card .el-icon {
   font-size: 32px;
-  color: var(--border-focus);
+  color: #3b82f6;
   margin-bottom: 12px;
 }
 
 .action-card h3 {
   margin: 0 0 8px 0;
-  color: var(--text-primary);
+  color: #1e293b;
   font-size: 16px;
   font-weight: 600;
 }
 
 .action-card p {
   margin: 0;
-  color: var(--text-secondary);
+  color: #64748b;
   font-size: 14px;
 }
 
 .recent-activity {
-  background: var(--bg-card);
+  background: white;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
 }
 
 .activity-header {
@@ -680,5 +738,99 @@ export default {
 .activity-time {
   color: #bdc3c7;
   font-size: 12px;
+}
+
+/* Dark mode styles */
+.dark .dashboard-container {
+  background-color: #0f172a;
+}
+
+.dark .dashboard-header {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark .header-content h1 {
+  color: #f8fafc;
+}
+
+.dark .header-content p {
+  color: #cbd5e1;
+}
+
+.dark .stat-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark .stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dark .stat-content h3 {
+  color: #f8fafc;
+}
+
+.dark .stat-content p {
+  color: #cbd5e1;
+}
+
+.dark .quick-actions h2 {
+  color: #f8fafc;
+}
+
+.dark .action-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark .action-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-color: #60a5fa;
+}
+
+.dark .action-card .el-icon {
+  color: #60a5fa;
+}
+
+.dark .action-card h3 {
+  color: #f8fafc;
+}
+
+.dark .action-card p {
+  color: #cbd5e1;
+}
+
+.dark .recent-activity {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark .activity-header h3 {
+  color: #f8fafc;
+}
+
+.dark .activity-item {
+  border-color: #334155;
+}
+
+.dark .activity-item:hover {
+  background-color: #334155;
+}
+
+.dark .activity-icon {
+  background-color: #334155;
+}
+
+.dark .activity-content h4 {
+  color: #f8fafc;
+}
+
+.dark .activity-content p {
+  color: #cbd5e1;
+}
+
+.dark .activity-time {
+  color: #94a3b8;
 }
 </style>
