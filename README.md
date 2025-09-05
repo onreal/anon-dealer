@@ -1,5 +1,38 @@
 # Anon dealer
-Anon Dealers introduces a cutting-edge profit manager PWA application, securing all data through encryption on local indexedDB storage for heightened confidentiality. Yo, Anon Dealer is cooking up some fresh vibes in development. Priority numero uno: Let's pimp up this README file to max out the info game. Stay tuned for the real deal!
+Anon Dealers introduces a cutting-edge profit manager PWA application, 
+securing all data through encryption on local indexedDB storage for heightened confidentiality.
+
+There are a lot of things to be done, but the main goal is to create a simple decentralized application 
+that can be used by anyone to manage their profits.
+
+The main idea:
+
+Anonymity: You are a seller, but you don't want to share your sales data (inventory ? what you sell ? who you sell ? profits ? )
+with anyone, even if your device is taken by force unlocked, your data will still be safe, 
+since everything will be stored encrypted on your device.
+
+Business: You are a seller, you want to know how much you have sold, 
+how much you have earned and how much you have spent for a particular item.
+
+Management: You are a seller, you want to track your sales, clients, inventories, profits, and expenses. Import/Export data.
+
+Intelligence: You want to know which item is the most profitable, forecasting, reports, analytics, etc.
+
+Communication: P2P communication with WebRTC for seller and buyer to communicate without sharing personal data.
+
+Orders: P2P Decentralized orders, no middleman, no fees, no restrictions, no censorship.
+
+Payments: Support for cryptocurrencies real-time purchase and sale.
+
+How to arrive at the main idea:
+Anonimity is on it's core, the first step have been done, a white canvas to start painting on those ideas is born.
+Right now, anonimity is achieved by encrypting all data on the client side, 
+the data are encrypted on insert update and decrypted on the fly with jjstore.js.
+I use typescript and vue3 with vite, and the structure follows the vuex store pattern.
+1. Create a new inventory
+2. Add/Edit/Delete items to the inventory
+3. Add/Edit/Delete clients
+4. Add/Edit/Delete sales
 
 # Vue 3 + TypeScript + Vite
 
