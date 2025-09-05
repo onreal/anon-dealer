@@ -38,6 +38,13 @@ export class Session extends Store<CurrentSession> {
     }
 
     private async isLoggedIn(): Promise<boolean> {
+        // Check localStorage first (faster)
+        const localStoragePin = localStorage.getItem('anon_pin');
+        if (localStoragePin && localStoragePin !== '') {
+            return true;
+        }
+        
+        // Fallback to database check
         let configPin = await this.getConfigurationPin()
         if (!configPin || configPin === '' || configPin === null) {
             return false
