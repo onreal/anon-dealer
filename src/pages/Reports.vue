@@ -604,8 +604,9 @@ export default {
 .performance-item, .forecast-item, .velocity-item {
   margin-bottom: 16px;
   padding: 12px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 8px;
+  border: 1px solid var(--border-primary);
 }
 
 .item-info, .forecast-info, .velocity-info {
@@ -617,7 +618,7 @@ export default {
 
 .item-name, .forecast-name, .velocity-name {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .item-profit, .velocity-rate {
@@ -641,12 +642,12 @@ export default {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--text-secondary);
 }
 
 .profit-bar, .velocity-bar {
   height: 6px;
-  background: #e9ecef;
+  background: var(--border-primary);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -666,14 +667,15 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 12px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 8px;
+  border: 1px solid var(--border-primary);
   margin-bottom: 12px;
 }
 
 .margin-label {
   font-weight: 500;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .margin-count {
