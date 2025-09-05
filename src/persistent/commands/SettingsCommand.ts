@@ -24,8 +24,8 @@ export class SettingsCommand extends Command {
         return this.connection.insert({
             into: this.tableName,
             values: [settings],
-            encrypt:true,
             return: true,
+            encrypt: true
         })
     }
 }

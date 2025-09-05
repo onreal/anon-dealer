@@ -83,7 +83,6 @@ export class Command {
         return this.connection.insert({
             into: this.tableName,
             values: [entity],
-            encrypt:true,
             return: true
         })
     }
@@ -105,5 +104,31 @@ export class Command {
         }
 
         return entities
+    }
+
+    async getAll(order: string = 'asc') {
+        try {
+            // Temporarily disable decryption to avoid Malformed UTF-8 data errors
+            console.log(`Command.getAll: Loading ${this.tableName} without decryption (temporary fix)`)
+            
+            const entities = await this.connection.select({
+                from: this.tableName,
+                order: {
+                    by: this.primaryKey,
+                    type: order
+                }
+                // No decrypt: true to avoid the Malformed UTF-8 data error
+            })
+
+            if (!entities) {
+                return []
+            }
+
+            console.log(`Command.getAll: Loaded ${entities.length} entities from ${this.tableName}`)
+            return entities
+        } catch (error) {
+            console.error(`Command.getAll: Failed to load ${this.tableName}:`, error)
+            return []
+        }
     }
 }

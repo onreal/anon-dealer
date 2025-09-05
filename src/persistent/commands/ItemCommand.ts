@@ -23,6 +23,77 @@ export class ItemCommand extends Command {
         return item[0]
     }
 
+    public async add(item: any) {
+        return this.connection.insert({
+            into: this.tableName,
+            values: [item],
+            return: true,
+            encrypt: true
+        })
+    }
+
+    public async getAll(order: string = 'asc') {
+        try {
+            // Try with decryption first
+            console.log('ItemCommand.getAll: Attempting to load items with decryption...')
+            
+            const entities = await this.connection.select({
+                from: this.tableName,
+                order: {
+                    by: this.primaryKey,
+                    type: order
+                },
+                decrypt: true
+            })
+
+            if (!entities) {
+                return []
+            }
+
+            console.log('ItemCommand.getAll: Successfully loaded', entities.length, 'decrypted items')
+            return entities
+        } catch (error) {
+            console.warn('ItemCommand.getAll: Decryption failed, loading raw data:', error.message)
+            
+            // Fallback to raw data if decryption fails
+            try {
+                const rawEntities = await this.connection.select({
+                    from: this.tableName,
+                    order: {
+                        by: this.primaryKey,
+                        type: order
+                    }
+                })
+
+                if (!rawEntities) {
+                    return []
+                }
+
+                console.log('ItemCommand.getAll: Loaded', rawEntities.length, 'raw encrypted items')
+                return rawEntities
+            } catch (rawError) {
+                console.error('ItemCommand.getAll: Both decrypted and raw queries failed:', rawError)
+                return []
+            }
+        }
+    }
+
+    public async updateItem(item: any) {
+        return this.connection.update({
+            in: this.tableName,
+            set: {
+                Name: item.Name,
+                Description: item.Description,
+                Type: item.Type,
+                Image: item.Image
+            },
+            where: {
+                ItemId: item.ItemId
+            },
+            encrypt: true
+        })
+    }
+
     public async update(inventorySale: any) {
         return this.connection.update({
             in: this.tableName,
@@ -36,7 +107,7 @@ export class ItemCommand extends Command {
             where: {
                 InventoryId: inventorySale.InventoryId
             },
-            encrypt:true
+            encrypt: true
         })
     }
 }

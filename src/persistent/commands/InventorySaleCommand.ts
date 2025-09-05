@@ -36,7 +36,7 @@ export class InventorySaleCommand extends Command {
             where: {
                 InventoryId: inventorySale.InventoryId
             },
-            encrypt:true
+            encrypt: true
         })
     }
 }

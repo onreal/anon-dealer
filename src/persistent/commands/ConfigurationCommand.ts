@@ -11,18 +11,39 @@ export class ConfigurationCommand extends Command {
     }
 
     public async getPin() {
-        const configuration = await this.getOne();
+        const configuration = await this.connection.select({
+            from: this.tableName,
+            limit: 1,
+            decrypt: true
+        });
 
-        // @ts-ignore
-        return await configuration.Pin
+        if (!configuration || configuration.length === 0) {
+            return null;
+        }
+
+        return configuration[0].Pin;
+    }
+
+    public async getOne() {
+        const configuration = await this.connection.select({
+            from: this.tableName,
+            limit: 1,
+            decrypt: true
+        });
+
+        if (!configuration || configuration.length === 0) {
+            return null;
+        }
+
+        return configuration[0];
     }
 
     public async add(configuration: any) {
         return this.connection.insert({
             into: this.tableName,
             values: [configuration],
-            encrypt:true,
             return: true,
+            encrypt: true
         })
     }
 
@@ -40,7 +61,7 @@ export class ConfigurationCommand extends Command {
             where: {
                 ConfigurationId: configuration.ConfigurationId
             },
-            encrypt:true
+            encrypt: true
         })
     }
 
@@ -52,7 +73,8 @@ export class ConfigurationCommand extends Command {
             },
             where: {
                 ConfigurationId: configurationId
-            }
+            },
+            encrypt: true
         })
     }
 
@@ -64,7 +86,8 @@ export class ConfigurationCommand extends Command {
             },
             where: {
                 ConfigurationId: configurationId
-            }
+            },
+            encrypt: true
         })
     }
 }
