@@ -16,16 +16,39 @@ export class CustomerRepository extends Repository{
                 autoIncrement: true
             },
             Name: {
-                dataType: DATA_TYPE.String
+                dataType: DATA_TYPE.String,
+                notNull: true,
+                encrypt: true
+            },
+            Email: {
+                dataType: DATA_TYPE.String,
+                encrypt: true
+            },
+            Phone: {
+                dataType: DATA_TYPE.String,
+                encrypt: true
             },
             Mobile: {
                 dataType: DATA_TYPE.String,
-            },
-            Email: {
-                dataType: DATA_TYPE.String
+                encrypt: true
             },
             Telegram: {
-                dataType: DATA_TYPE.String
+                dataType: DATA_TYPE.String,
+                encrypt: true
+            },
+            Address: {
+                dataType: DATA_TYPE.String,
+                encrypt: true
+            },
+            Notes: {
+                dataType: DATA_TYPE.String,
+                encrypt: true
+            },
+            Status: {
+                dataType: DATA_TYPE.String,
+                notNull: true,
+                default: 'active',
+                encrypt: true
             },
             CreatedOn: {
                 dataType: DATA_TYPE.DateTime,
@@ -35,6 +58,10 @@ export class CustomerRepository extends Repository{
             ModifiedOn: {
                 dataType: DATA_TYPE.DateTime,
                 notNull: true,
+                encrypt: true
+            },
+            DeletedOn: {
+                dataType: DATA_TYPE.DateTime,
                 encrypt: true
             }
         }
