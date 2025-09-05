@@ -54,7 +54,6 @@ initializeDarkMode();
 .el-main {
   background-color: #ffffff;
   padding: 20px;
-  margin-bottom: 60px; /* Space for fixed navigation */
   transition: background-color 0.3s ease;
 }
 

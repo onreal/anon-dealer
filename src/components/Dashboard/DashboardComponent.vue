@@ -6,7 +6,8 @@
         <h1>Dashboard</h1>
         <p>Manage your anonymous business operations</p>
       </div>
-      <div class="header-actions">
+      <!-- Desktop Only Actions -->
+      <div class="header-actions desktop-only">
         <ElButton type="primary" @click="openAddItem">
           <ElIcon><Plus /></ElIcon>
           Add Item
@@ -105,10 +106,10 @@
           <p>Manage customer information</p>
         </div>
         
-        <div class="action-card" @click="showReports = true">
-          <ElIcon><DataAnalysis /></ElIcon>
-          <h3>View Reports</h3>
-          <p>Analyze your business data</p>
+        <div class="action-card" @click="openAddOrder">
+          <ElIcon><ShoppingCart /></ElIcon>
+          <h3>Add Order</h3>
+          <p>Create a new customer order</p>
         </div>
       </div>
     </div>
@@ -442,11 +443,49 @@ export default {
 
 <style scoped>
 .dashboard-container {
-  padding: 20px;
+  padding: 16px;
   max-width: 1200px;
   margin: 0 auto;
   background-color: #f8fafc;
   min-height: calc(100vh - 120px);
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+  
+  .dashboard-header {
+    padding: 16px;
+  }
+  
+  .stat-card {
+    padding: 16px;
+  }
+  
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .stat-content h3 {
+    font-size: 24px;
+  }
+  
+  .recent-activity {
+    padding: 16px;
+  }
+  
+  .activity-item {
+    padding: 12px 0;
+  }
+  
+  .activity-icon {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .dashboard-header {
@@ -492,6 +531,11 @@ export default {
   margin-right: 6px;
 }
 
+/* Hide header actions on mobile */
+.desktop-only {
+  display: none;
+}
+
 /* Desktop layout */
 @media (min-width: 768px) {
   .dashboard-header {
@@ -503,6 +547,10 @@ export default {
   
   .header-content h1 {
     font-size: 32px;
+  }
+  
+  .desktop-only {
+    display: flex;
   }
   
   .header-actions {
@@ -593,8 +641,32 @@ export default {
 
 .actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
+}
+
+/* Mobile optimization for action cards */
+@media (max-width: 480px) {
+  .actions-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .action-card {
+    padding: 20px;
+  }
+  
+  .action-card .el-icon {
+    font-size: 28px;
+  }
+  
+  .action-card h3 {
+    font-size: 15px;
+  }
+  
+  .action-card p {
+    font-size: 13px;
+  }
 }
 
 .action-card {
@@ -806,7 +878,7 @@ export default {
   border-color: #334155;
 }
 
-.dark .activity-header h3 {
+.dark .activity-header h2 {
   color: #f8fafc;
 }
 
@@ -832,5 +904,21 @@ export default {
 
 .dark .activity-time {
   color: #94a3b8;
+}
+
+.dark .no-activity {
+  color: #cbd5e1;
+}
+
+.dark .no-activity .el-icon {
+  color: #94a3b8;
+}
+
+.dark .no-activity h3 {
+  color: #f8fafc;
+}
+
+.dark .no-activity p {
+  color: #cbd5e1;
 }
 </style>

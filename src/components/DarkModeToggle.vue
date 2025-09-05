@@ -16,10 +16,10 @@ const { isDark, toggleDarkMode } = useDarkMode()
 
 <style scoped>
 .dark-mode-toggle {
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 20px;
-  z-index: 9999;
+  z-index: 1000;
   background: #ffffff;
   border: 2px solid #3b82f6;
   border-radius: 50%;
