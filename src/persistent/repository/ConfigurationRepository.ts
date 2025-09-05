@@ -16,7 +16,8 @@ export class ConfigurationRepository extends Repository{
             },
             Pin: {
                 dataType: DATA_TYPE.String,
-                notNull: true
+                notNull: true,
+                encrypt: true
             },
             State: {
                 dataType: DATA_TYPE.String,
