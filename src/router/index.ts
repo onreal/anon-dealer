@@ -5,6 +5,16 @@ import Registration from "../pages/Registration.vue";
 import Dashboard from "../pages/Dashboard.vue";
 // @ts-ignore
 import Login from "../pages/Login.vue";
+// @ts-ignore
+import Inventory from "../pages/Inventory.vue";
+// @ts-ignore
+import Items from "../pages/Items.vue";
+// @ts-ignore
+import Reports from "../pages/Reports.vue";
+// @ts-ignore
+import InventoryReports from "../pages/InventoryReports.vue";
+// @ts-ignore
+import Customers from "../pages/Customers.vue";
 import {session} from "../composables/Session";
 
 const routes = [
@@ -22,6 +32,31 @@ const routes = [
         path: "/",
         name: "Dashboard",
         component: Dashboard
+    },
+    {
+        path: "/inventory",
+        name: "Inventory",
+        component: Inventory
+    },
+    {
+        path: "/items",
+        name: "Items",
+        component: Items
+    },
+    {
+        path: "/reports",
+        name: "Reports",
+        component: Reports
+    },
+    {
+        path: "/inventories/:id/reports",
+        name: "InventoryReports",
+        component: InventoryReports
+    },
+    {
+        path: "/customers",
+        name: "Customers",
+        component: Customers
     }
 ];
 
@@ -36,10 +71,9 @@ router.beforeEach(async (to, from, next) => {
     const sess = await session();
     const data = await sess.data()
     if (data.isLoggedIn) {
-        if (to.path !== '/') {
-            next('/')
-            return
-        }
+        // Allow access to all routes when logged in
+        next()
+        return
     } else if (data.isInitialized) {
         if (to.path !== '/login') {
             next('/login')
