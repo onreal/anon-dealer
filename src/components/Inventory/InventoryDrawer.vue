@@ -3,7 +3,7 @@
     v-model="isCreateInventory" 
     direction="rtl" 
     :append-to-body="true" 
-    size="60%"
+    :size="isMobile ? '100%' : '60%'"
     class="inventory-drawer"
   >
     <template #header>
@@ -202,7 +202,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, ref, reactive, computed, onMounted, watch } from 'vue'
+import { getCurrentInstance, ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps<{
@@ -240,6 +240,22 @@ let inventory = reactive({
 let items = ref([])
 let loading = ref(false)
 let active = ref(0)
+
+// Mobile detection
+const isMobile = ref(false)
+
+const checkScreenSize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 
 const multiplierMarks = {
   1: '1x',
@@ -435,9 +451,87 @@ const closeDrawer = () => {
   resetForm()
   isCreateInventory.value = false
 }
+
+// Watch for drawer visibility changes to apply dark mode
+watch(isCreateInventory, (newVisible) => {
+  if (newVisible) {
+    // Check if dark mode is enabled
+    const isDarkMode = document.documentElement.classList.contains('dark')
+    if (isDarkMode) {
+      // Force dark mode styles on drawer elements
+      setTimeout(() => {
+        try {
+          const drawer = document.querySelector('.el-drawer')
+          const header = document.querySelector('.el-drawer__header')
+          const body = document.querySelector('.el-drawer__body')
+          const footer = document.querySelector('.el-drawer__footer')
+          const title = document.querySelector('.el-drawer__title')
+          const closeBtn = document.querySelector('.el-drawer__close-btn')
+          
+          if (drawer && drawer.parentNode) {
+            drawer.style.backgroundColor = '#1e293b'
+            drawer.style.color = '#f8fafc'
+          }
+          if (header && header.parentNode) {
+            header.style.backgroundColor = '#1e293b'
+            header.style.color = '#f8fafc'
+            header.style.borderBottomColor = '#334155'
+          }
+          if (body && body.parentNode) {
+            body.style.backgroundColor = '#1e293b'
+            body.style.color = '#f8fafc'
+          }
+          if (footer && footer.parentNode) {
+            footer.style.backgroundColor = '#1e293b'
+            footer.style.color = '#f8fafc'
+            footer.style.borderTopColor = '#334155'
+          }
+          if (title && title.parentNode) {
+            title.style.color = '#f8fafc'
+          }
+          if (closeBtn && closeBtn.parentNode) {
+            closeBtn.style.color = '#f8fafc'
+          }
+        } catch (error) {
+          console.warn('Error applying dark mode to drawer:', error)
+        }
+      }, 200)
+    }
+  }
+})
 </script>
 
 <style scoped>
+/* Dark mode styles for drawer */
+html.dark :deep(.el-drawer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__header) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-bottom-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__body) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__footer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-top-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__title) {
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__close-btn) {
+  color: #f8fafc !important;
+}
 .inventory-drawer {
   --el-drawer-bg-color: #f8f9fa;
 }
@@ -595,5 +689,60 @@ const closeDrawer = () => {
 .el-step__description {
   font-size: 12px;
   color: #7f8c8d;
+}
+
+/* Dark Mode Styles */
+.dark .el-drawer {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__header {
+  background-color: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__body {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__footer {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .drawer-header h2 {
+  color: #f8fafc;
+}
+
+.dark .drawer-header p {
+  color: #cbd5e1;
+}
+
+.dark .form-section {
+  border-bottom-color: #334155;
+}
+
+.dark .form-section h3 {
+  color: #f8fafc;
+}
+
+.dark .field-hint {
+  color: #cbd5e1;
+}
+
+.dark .drawer-footer {
+  border-top-color: #334155;
+}
+
+.dark .el-form-item__label {
+  color: #f8fafc;
+}
+
+.dark .el-step__description {
+  color: #cbd5e1;
 }
 </style>

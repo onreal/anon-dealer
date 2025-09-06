@@ -340,3 +340,157 @@ button:focus-visible {
   background-color: var(--border-focus) !important;
   color: var(--text-inverse) !important;
 }
+
+/* Mobile Drawer Styles - Full Screen on Mobile */
+@media (max-width: 768px) {
+  .el-drawer {
+    z-index: 10001 !important;
+    position: absolute !important;
+  }
+  
+  .el-drawer__wrapper {
+    z-index: 10000 !important;
+    position: absolute !important;
+  }
+  
+  .el-overlay {
+    z-index: 9999 !important;
+    position: absolute !important;
+  }
+}
+
+/* Desktop Drawer Styles - Ensure drawers are above dark mode toggle */
+.el-drawer {
+  z-index: 10001 !important;
+  position: absolute !important;
+}
+
+.el-drawer__wrapper {
+  z-index: 10000 !important;
+  position: absolute !important;
+}
+
+.el-overlay {
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+/* Dark Mode Drawer Overrides - Maximum Specificity */
+.dark .el-drawer,
+.dark .el-drawer__wrapper .el-drawer,
+html.dark .el-drawer,
+html.dark .el-drawer__wrapper .el-drawer,
+html.dark body .el-drawer,
+html.dark body .el-drawer__wrapper .el-drawer,
+html.dark #app .el-drawer,
+html.dark #app .el-drawer__wrapper .el-drawer {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__header,
+.dark .el-drawer__wrapper .el-drawer__header,
+html.dark .el-drawer__header,
+html.dark .el-drawer__wrapper .el-drawer__header,
+html.dark body .el-drawer__header,
+html.dark body .el-drawer__wrapper .el-drawer__header,
+html.dark #app .el-drawer__header,
+html.dark #app .el-drawer__wrapper .el-drawer__header {
+  background-color: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__body,
+.dark .el-drawer__wrapper .el-drawer__body,
+html.dark .el-drawer__body,
+html.dark .el-drawer__wrapper .el-drawer__body,
+html.dark body .el-drawer__body,
+html.dark body .el-drawer__wrapper .el-drawer__body,
+html.dark #app .el-drawer__body,
+html.dark #app .el-drawer__wrapper .el-drawer__body {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__footer,
+.dark .el-drawer__wrapper .el-drawer__footer,
+html.dark .el-drawer__footer,
+html.dark .el-drawer__wrapper .el-drawer__footer,
+html.dark body .el-drawer__footer,
+html.dark body .el-drawer__wrapper .el-drawer__footer,
+html.dark #app .el-drawer__footer,
+html.dark #app .el-drawer__wrapper .el-drawer__footer {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+/* Additional Element Plus Overrides - Maximum Specificity */
+.dark .el-drawer__close-btn,
+html.dark .el-drawer__close-btn,
+html.dark body .el-drawer__close-btn,
+html.dark #app .el-drawer__close-btn {
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__title,
+html.dark .el-drawer__title,
+html.dark body .el-drawer__title,
+html.dark #app .el-drawer__title {
+  color: #f8fafc !important;
+}
+
+/* Force override any inline styles */
+html.dark .el-drawer[style*="background-color"],
+html.dark .el-drawer__header[style*="background-color"],
+html.dark .el-drawer__body[style*="background-color"],
+html.dark .el-drawer__footer[style*="background-color"] {
+  background-color: #1e293b !important;
+}
+
+html.dark .el-drawer[style*="color"],
+html.dark .el-drawer__header[style*="color"],
+html.dark .el-drawer__body[style*="color"],
+html.dark .el-drawer__footer[style*="color"] {
+  color: #f8fafc !important;
+}
+
+/* Nuclear option - override everything with maximum specificity */
+html.dark .el-drawer__wrapper .el-drawer,
+html.dark .el-drawer__wrapper .el-drawer__header,
+html.dark .el-drawer__wrapper .el-drawer__body,
+html.dark .el-drawer__wrapper .el-drawer__footer {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+/* Override Element Plus CSS variables */
+html.dark {
+  --el-drawer-bg-color: #1e293b !important;
+  --el-drawer-text-color: #f8fafc !important;
+  --el-drawer-border-color: #334155 !important;
+}
+
+/* Force override with attribute selectors */
+html.dark [class*="el-drawer"] {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark [class*="el-drawer__header"] {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-bottom-color: #334155 !important;
+}
+
+html.dark [class*="el-drawer__body"] {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark [class*="el-drawer__footer"] {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-top-color: #334155 !important;
+}

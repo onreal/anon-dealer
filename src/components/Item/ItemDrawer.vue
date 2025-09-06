@@ -3,7 +3,7 @@
     v-model="isCreateItem" 
     direction="rtl" 
     :append-to-body="true" 
-    size="50%"
+    :size="isMobile ? '100%' : '50%'"
     class="item-drawer"
   >
     <template #header>
@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, ref, reactive, computed } from 'vue'
+import { getCurrentInstance, ref, reactive, computed, onMounted, onUnmounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { genFileId, UploadInstance, UploadProps, UploadRawFile } from "element-plus"
@@ -147,6 +147,22 @@ let isEditing = ref(false)
 let editingItem = ref(null)
 
 const uploadRef = ref<UploadInstance>()
+
+// Mobile detection
+const isMobile = ref(false)
+
+const checkScreenSize = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 
 const rules = {
   Name: [
@@ -267,6 +283,54 @@ const setupEditMode = (itemToEdit: any) => {
   item.CreatedOn = itemToEdit.CreatedOn
 }
 
+// Watch for drawer visibility changes to apply dark mode
+watch(isCreateItem, (newVisible) => {
+  if (newVisible) {
+    // Check if dark mode is enabled
+    const isDarkMode = document.documentElement.classList.contains('dark')
+    if (isDarkMode) {
+      // Force dark mode styles on drawer elements
+      setTimeout(() => {
+        try {
+          const drawer = document.querySelector('.el-drawer')
+          const header = document.querySelector('.el-drawer__header')
+          const body = document.querySelector('.el-drawer__body')
+          const footer = document.querySelector('.el-drawer__footer')
+          const title = document.querySelector('.el-drawer__title')
+          const closeBtn = document.querySelector('.el-drawer__close-btn')
+          
+          if (drawer && drawer.parentNode) {
+            drawer.style.backgroundColor = '#1e293b'
+            drawer.style.color = '#f8fafc'
+          }
+          if (header && header.parentNode) {
+            header.style.backgroundColor = '#1e293b'
+            header.style.color = '#f8fafc'
+            header.style.borderBottomColor = '#334155'
+          }
+          if (body && body.parentNode) {
+            body.style.backgroundColor = '#1e293b'
+            body.style.color = '#f8fafc'
+          }
+          if (footer && footer.parentNode) {
+            footer.style.backgroundColor = '#1e293b'
+            footer.style.color = '#f8fafc'
+            footer.style.borderTopColor = '#334155'
+          }
+          if (title && title.parentNode) {
+            title.style.color = '#f8fafc'
+          }
+          if (closeBtn && closeBtn.parentNode) {
+            closeBtn.style.color = '#f8fafc'
+          }
+        } catch (error) {
+          console.warn('Error applying dark mode to drawer:', error)
+        }
+      }, 200)
+    }
+  }
+})
+
 // Expose functions for parent components
 defineExpose({
   setupEditMode
@@ -274,6 +338,36 @@ defineExpose({
 </script>
 
 <style scoped>
+/* Dark mode styles for drawer */
+html.dark :deep(.el-drawer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__header) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-bottom-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__body) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__footer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-top-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__title) {
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__close-btn) {
+  color: #f8fafc !important;
+}
 .item-drawer {
   --el-drawer-bg-color: #f8f9fa;
 }
@@ -380,6 +474,75 @@ defineExpose({
 .el-form-item__label {
   font-weight: 600;
   color: #2c3e50;
+}
+
+/* Dark Mode Styles */
+.dark .el-drawer {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__header {
+  background-color: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__body {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__footer {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .drawer-header h2 {
+  color: #f8fafc;
+}
+
+.dark .drawer-header p {
+  color: #cbd5e1;
+}
+
+.dark .form-section {
+  border-bottom-color: #334155;
+}
+
+.dark .form-section h3 {
+  color: #f8fafc;
+}
+
+.dark .field-hint {
+  color: #cbd5e1;
+}
+
+.dark .upload-area {
+  border-color: #475569;
+  background: #1e293b;
+}
+
+.dark .upload-area:hover {
+  border-color: #60a5fa;
+  background: #1e3a8a;
+}
+
+.dark .upload-icon {
+  color: #64748b;
+}
+
+.dark .upload-text {
+  color: #cbd5e1;
+}
+
+.dark .drawer-footer {
+  border-top-color: #334155;
+}
+
+.dark .el-form-item__label {
+  color: #f8fafc;
 }
 
 .el-input, .el-select {

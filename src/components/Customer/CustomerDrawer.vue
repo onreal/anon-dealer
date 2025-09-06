@@ -3,7 +3,7 @@
     v-model="visible"
     :title="isEditing ? 'Edit Customer' : 'Add New Customer'"
     direction="rtl"
-    size="400px"
+    :size="isMobile ? '100%' : '400px'"
     class="customer-drawer"
   >
     <el-form
@@ -83,6 +83,7 @@ export default {
       visible: false,
       saving: false,
       isEditing: false,
+      isMobile: false,
       form: {
         CustomerId: null,
         Name: '',
@@ -109,7 +110,17 @@ export default {
       }
     }
   },
+  mounted() {
+    this.checkScreenSize()
+    window.addEventListener('resize', this.checkScreenSize)
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.checkScreenSize)
+  },
   methods: {
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768
+    },
     open(customer = null) {
       this.isEditing = !!customer
       
@@ -126,6 +137,49 @@ export default {
       }
       
       this.visible = true
+      
+      // Check if dark mode is enabled and apply styles
+      const isDarkMode = document.documentElement.classList.contains('dark')
+      if (isDarkMode) {
+        // Force dark mode styles on drawer elements
+        setTimeout(() => {
+          try {
+            const drawer = document.querySelector('.el-drawer')
+            const header = document.querySelector('.el-drawer__header')
+            const body = document.querySelector('.el-drawer__body')
+            const footer = document.querySelector('.el-drawer__footer')
+            const title = document.querySelector('.el-drawer__title')
+            const closeBtn = document.querySelector('.el-drawer__close-btn')
+            
+            if (drawer && drawer.parentNode) {
+              drawer.style.backgroundColor = '#1e293b'
+              drawer.style.color = '#f8fafc'
+            }
+            if (header && header.parentNode) {
+              header.style.backgroundColor = '#1e293b'
+              header.style.color = '#f8fafc'
+              header.style.borderBottomColor = '#334155'
+            }
+            if (body && body.parentNode) {
+              body.style.backgroundColor = '#1e293b'
+              body.style.color = '#f8fafc'
+            }
+            if (footer && footer.parentNode) {
+              footer.style.backgroundColor = '#1e293b'
+              footer.style.color = '#f8fafc'
+              footer.style.borderTopColor = '#334155'
+            }
+            if (title && title.parentNode) {
+              title.style.color = '#f8fafc'
+            }
+            if (closeBtn && closeBtn.parentNode) {
+              closeBtn.style.color = '#f8fafc'
+            }
+          } catch (error) {
+            console.warn('Error applying dark mode to drawer:', error)
+          }
+        }, 200)
+      }
     },
 
     closeDrawer() {
@@ -181,6 +235,36 @@ export default {
 </script>
 
 <style scoped>
+/* Dark mode styles for drawer */
+html.dark :deep(.el-drawer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__header) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-bottom-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__body) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__footer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-top-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__title) {
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__close-btn) {
+  color: #f8fafc !important;
+}
 .customer-drawer {
   --el-drawer-bg-color: #ffffff;
 }
@@ -233,5 +317,41 @@ export default {
   .drawer-footer .el-button {
     width: 100%;
   }
+}
+
+/* Dark Mode Styles */
+.dark .el-drawer {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__header {
+  background-color: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__body {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__footer {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .drawer-header h2 {
+  color: #f8fafc;
+}
+
+.dark .drawer-header p {
+  color: #cbd5e1;
+}
+
+.dark .drawer-footer {
+  border-top-color: #334155;
+  background: #1e293b;
 }
 </style>

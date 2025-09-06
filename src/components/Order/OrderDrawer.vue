@@ -3,7 +3,7 @@
     v-model="visible"
     :title="isEditing ? 'Edit Order' : 'Add New Order'"
     direction="rtl"
-    size="50%"
+    :size="isMobile ? '100%' : '50%'"
     @close="closeDrawer"
   >
     <el-form
@@ -146,6 +146,7 @@ export default {
       maxQuantity: 0,
       loading: false,
       error: null,
+      isMobile: false,
       orderRules: {
         customerId: [
           { required: true, message: 'Please select a customer', trigger: 'change' }
@@ -192,6 +193,13 @@ export default {
       return this.inventories.find(inv => inv.InventoryId === this.orderForm.inventoryId)
     }
   },
+  mounted() {
+    this.checkScreenSize()
+    window.addEventListener('resize', this.checkScreenSize)
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.checkScreenSize)
+  },
   watch: {
     modelValue(newVal) {
       if (newVal) {
@@ -204,7 +212,60 @@ export default {
       }
     }
   },
+  
+  watch: {
+    visible(newVisible) {
+      if (newVisible) {
+        // Check if dark mode is enabled
+        const isDarkMode = document.documentElement.classList.contains('dark')
+        if (isDarkMode) {
+          // Force dark mode styles on drawer elements
+          setTimeout(() => {
+            try {
+              const drawer = document.querySelector('.el-drawer')
+              const header = document.querySelector('.el-drawer__header')
+              const body = document.querySelector('.el-drawer__body')
+              const footer = document.querySelector('.el-drawer__footer')
+              const title = document.querySelector('.el-drawer__title')
+              const closeBtn = document.querySelector('.el-drawer__close-btn')
+              
+              if (drawer && drawer.parentNode) {
+                drawer.style.backgroundColor = '#1e293b'
+                drawer.style.color = '#f8fafc'
+              }
+              if (header && header.parentNode) {
+                header.style.backgroundColor = '#1e293b'
+                header.style.color = '#f8fafc'
+                header.style.borderBottomColor = '#334155'
+              }
+              if (body && body.parentNode) {
+                body.style.backgroundColor = '#1e293b'
+                body.style.color = '#f8fafc'
+              }
+              if (footer && footer.parentNode) {
+                footer.style.backgroundColor = '#1e293b'
+                footer.style.color = '#f8fafc'
+                footer.style.borderTopColor = '#334155'
+              }
+              if (title && title.parentNode) {
+                title.style.color = '#f8fafc'
+              }
+              if (closeBtn && closeBtn.parentNode) {
+                closeBtn.style.color = '#f8fafc'
+              }
+            } catch (error) {
+              console.warn('Error applying dark mode to drawer:', error)
+            }
+          }, 200)
+        }
+      }
+    }
+  },
+  
   methods: {
+    checkScreenSize() {
+      this.isMobile = window.innerWidth <= 768
+    },
     async loadData() {
       try {
         // Load customers
@@ -395,6 +456,36 @@ export default {
 </script>
 
 <style scoped>
+/* Force dark mode on drawer - highest specificity */
+:deep(.el-drawer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+:deep(.el-drawer__header) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-bottom-color: #334155 !important;
+}
+
+:deep(.el-drawer__body) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+:deep(.el-drawer__footer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-top-color: #334155 !important;
+}
+
+:deep(.el-drawer__title) {
+  color: #f8fafc !important;
+}
+
+:deep(.el-drawer__close-btn) {
+  color: #f8fafc !important;
+}
 .order-form {
   padding: 20px;
 }
@@ -442,5 +533,52 @@ export default {
 
 .el-select {
   width: 100%;
+}
+
+/* Dark Mode Styles */
+html.dark :deep(.el-drawer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__header) {
+  background-color: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__body) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__footer) {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__title) {
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__close-btn) {
+  color: #f8fafc !important;
+}
+
+.dark .quantity-info {
+  color: #cbd5e1;
+}
+
+.dark .quantity-warning {
+  color: #f87171;
+}
+
+.dark .cost-info {
+  color: #34d399;
+}
+
+.dark .quantity-suggestion {
+  color: #34d399;
 }
 </style>
