@@ -205,6 +205,7 @@ export default {
   },
   async mounted() {
     await this.loadDashboardData()
+    await this.initializeP2P()
   },
   methods: {
     async loadDashboardData() {
@@ -216,6 +217,26 @@ export default {
       } catch (error) {
         console.error('Error loading dashboard data:', error)
         ElMessage.error('Failed to load dashboard data')
+      }
+    },
+
+    async initializeP2P() {
+      try {
+        // Import P2P initializer dynamically to avoid circular dependencies
+        const { P2PInitializer } = await import('@/p2p/application/services/P2PInitializer')
+        
+        // Get configuration and settings
+        const configuration = await this.$command.Configuration.getOne()
+        const settings = await this.$command.Settings.getOne()
+        
+        // Initialize P2P with configuration
+        const p2pInitializer = P2PInitializer.getInstance()
+        await p2pInitializer.initialize(configuration, settings)
+        
+        console.log('P2P system initialized successfully')
+      } catch (error) {
+        console.error('Failed to initialize P2P system:', error)
+        // Don't show error message to user as P2P is optional
       }
     },
     

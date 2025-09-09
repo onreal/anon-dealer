@@ -78,6 +78,46 @@
         </div>
 
         <div class="form-section">
+          <h3>P2P Network Settings</h3>
+          <div class="p2p-disclaimer">
+            <ElAlert
+                title="Peer-to-Peer Network"
+                description="Connect to other Anon Dealer users for secure, decentralized business transactions and communication."
+                type="info"
+                :closable="false"
+                show-icon
+            />
+          </div>
+
+          <ElFormItem label="Enable P2P Network?">
+            <ElRadioGroup v-model="registration.isP2PEnabled" :disabled="loading">
+              <ElRadio :label="false">No, keep everything local</ElRadio>
+              <ElRadio :label="true">Yes, join P2P network</ElRadio>
+            </ElRadioGroup>
+          </ElFormItem>
+
+          <template v-if="registration.isP2PEnabled">
+            <ElFormItem label="Signaling Server URL" prop="signalingServerUrl">
+              <ElInput 
+                  placeholder="http://localhost:8080" 
+                  v-model="registration.signalingServerUrl"
+                  :disabled="loading"
+              />
+              <div class="field-hint">Leave empty to use default server</div>
+            </ElFormItem>
+
+            <ElFormItem label="P2P Network Room" prop="p2pDefaultRoom">
+              <ElInput 
+                  placeholder="anon-dealer-network" 
+                  v-model="registration.p2pDefaultRoom"
+                  :disabled="loading"
+              />
+              <div class="field-hint">Room name for P2P connections</div>
+            </ElFormItem>
+          </template>
+        </div>
+
+        <div class="form-section">
           <h3>Privacy Settings</h3>
           <div class="privacy-disclaimer">
             <ElAlert
@@ -176,7 +216,11 @@ export default {
         isBackend: false,
         isAgree: false,
         backendUrl: '',
-        backendToken: ''
+        backendToken: '',
+        // P2P Configuration
+        isP2PEnabled: true,
+        signalingServerUrl: '',
+        p2pDefaultRoom: 'anon-dealer-network'
       }),
       loading: false,
       registrationFormRef: null,
@@ -215,6 +259,30 @@ export default {
             trigger: 'blur' 
           }
         ],
+        signalingServerUrl: [
+          { 
+            validator: (rule, value, callback) => {
+              if (this.registration.isP2PEnabled && value && !this.isValidUrl(value)) {
+                callback(new Error('Please enter a valid URL'))
+              } else {
+                callback()
+              }
+            }, 
+            trigger: 'blur' 
+          }
+        ],
+        p2pDefaultRoom: [
+          { 
+            required: this.registration.isP2PEnabled, 
+            message: 'P2P room name is required when P2P is enabled', 
+            trigger: 'blur' 
+          },
+          { 
+            min: 3, 
+            message: 'Room name must be at least 3 characters', 
+            trigger: 'blur' 
+          }
+        ],
         isAgree: [
           { 
             validator: (rule, value, callback) => {
@@ -244,6 +312,12 @@ export default {
       if (!newVal) {
         this.registration.backendUrl = ''
         this.registration.backendToken = ''
+      }
+    },
+    'registration.isP2PEnabled'(newVal) {
+      if (!newVal) {
+        this.registration.signalingServerUrl = ''
+        this.registration.p2pDefaultRoom = 'anon-dealer-network'
       }
     }
   },
@@ -278,6 +352,11 @@ export default {
         const configuration = await this.$command.Configuration.add({
           Pin: this.registration.pin,
           State: 'REGISTERED',
+          // P2P Configuration
+          IsP2PEnabled: this.registration.isP2PEnabled,
+          SignalingServerUrl: this.registration.signalingServerUrl || this.getDefaultSignalingServerUrl(),
+          SignalingServerWsUrl: this.getDefaultSignalingServerWsUrl(),
+          P2PDefaultRoom: this.registration.p2pDefaultRoom,
           CreatedOn: new Date(),
           LastLogin: new Date()
         })
@@ -296,6 +375,11 @@ export default {
           Currency: country.currency.code,
           Language: country.code,
           Timezone: this.registration.timezone,
+          // P2P Configuration
+          IsP2PEnabled: this.registration.isP2PEnabled,
+          SignalingServerUrl: this.registration.signalingServerUrl || this.getDefaultSignalingServerUrl(),
+          SignalingServerWsUrl: this.getDefaultSignalingServerWsUrl(),
+          P2PDefaultRoom: this.registration.p2pDefaultRoom,
           CreatedOn: new Date(),
           ModifiedOn: new Date()
         }
@@ -307,6 +391,19 @@ export default {
         
         // Send PIN to worker for encryption/decryption
         this.$sendPinToWorker(this.registration.pin)
+
+        // Initialize P2P if enabled
+        if (this.registration.isP2PEnabled) {
+          try {
+            const { P2PInitializer } = await import('@/p2p/application/services/P2PInitializer')
+            const p2pInitializer = P2PInitializer.getInstance()
+            await p2pInitializer.initialize(configuration, settings)
+            console.log('P2P system initialized after registration')
+          } catch (error) {
+            console.error('Failed to initialize P2P after registration:', error)
+            // Don't fail registration if P2P fails
+          }
+        }
 
         ElMessage.success('Setup completed successfully!')
         await router.push({ name: 'Dashboard' })
@@ -326,6 +423,23 @@ export default {
         throw new Error('Country not found')
       }
       return JSON.parse(JSON.stringify(country))
+    },
+
+    isValidUrl(string) {
+      try {
+        new URL(string)
+        return true
+      } catch (_) {
+        return false
+      }
+    },
+
+    getDefaultSignalingServerUrl() {
+      return import.meta.env.VITE_DEFAULT_SIGNALING_SERVER_URL || 'http://localhost:8080'
+    },
+
+    getDefaultSignalingServerWsUrl() {
+      return import.meta.env.VITE_DEFAULT_SIGNALING_SERVER_WS_URL || 'ws://localhost:8080'
     }
   }
 }
