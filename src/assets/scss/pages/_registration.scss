@@ -1,0 +1,12 @@
+// Registration Page Styles
+.registration-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  
+  .registration-container {
+    @include flex-center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: var(--spacing-lg);
+  }
+}

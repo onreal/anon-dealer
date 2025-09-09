@@ -1,0 +1,42 @@
+// Customers Page Styles
+.customers-page {
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  padding: var(--spacing-lg);
+  
+  .customers-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .customers-header {
+    margin-bottom: var(--spacing-xl);
+    
+    h1 {
+      color: var(--text-primary);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .customers-page {
+    background: var(--bg-darker);
+    
+    .customers-header h1 {
+      color: var(--text-white);
+    }
+    
+    .customers-header p {
+      color: var(--text-secondary);
+    }
+  }
+}

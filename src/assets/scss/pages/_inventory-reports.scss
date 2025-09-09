@@ -1,0 +1,42 @@
+// Inventory Reports Page Styles
+.inventory-reports-page {
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  padding: var(--spacing-lg);
+  
+  .inventory-reports-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .inventory-reports-header {
+    margin-bottom: var(--spacing-xl);
+    
+    h1 {
+      color: var(--text-primary);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .inventory-reports-page {
+    background: var(--bg-darker);
+    
+    .inventory-reports-header h1 {
+      color: var(--text-white);
+    }
+    
+    .inventory-reports-header p {
+      color: var(--text-secondary);
+    }
+  }
+}
