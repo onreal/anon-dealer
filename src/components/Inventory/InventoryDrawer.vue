@@ -337,6 +337,11 @@ const populateForm = () => {
 
 const loadItems = async () => {
   try {
+    // Check if commands are available
+    if (!internalInstance?.appContext.config.globalProperties.$command) {
+      return
+    }
+
     const itemsData = await internalInstance?.appContext.config.globalProperties.$command.Item.getAll()
     items.value = itemsData || []
   } catch (error) {
