@@ -1,0 +1,42 @@
+// P2P Orders Page Styles
+.p2p-orders-page {
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  padding: var(--spacing-lg);
+  
+  .p2p-orders-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .p2p-orders-header {
+    margin-bottom: var(--spacing-xl);
+    
+    h1 {
+      color: var(--text-primary);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .p2p-orders-page {
+    background: var(--bg-darker);
+    
+    .p2p-orders-header h1 {
+      color: var(--text-white);
+    }
+    
+    .p2p-orders-header p {
+      color: var(--text-secondary);
+    }
+  }
+}

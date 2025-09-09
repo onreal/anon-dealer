@@ -1,0 +1,98 @@
+// P2P Orders Component Styles
+.p2p-orders {
+  @include card;
+  
+  .p2p-orders-header {
+    @include flex-between;
+    margin-bottom: var(--spacing-lg);
+    
+    h3 {
+      color: var(--text-primary);
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  
+  .p2p-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .p2p-order-card {
+    @include card;
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .order-header {
+      @include flex-between;
+      margin-bottom: var(--spacing-sm);
+      
+      .order-id {
+        color: var(--text-primary);
+        font-size: 16px;
+        font-weight: 600;
+      }
+      
+      .order-status {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        font-weight: 600;
+        
+        &.pending {
+          background: var(--warning-color);
+          color: var(--text-white);
+        }
+        
+        &.completed {
+          background: var(--success-color);
+          color: var(--text-white);
+        }
+        
+        &.cancelled {
+          background: var(--danger-color);
+          color: var(--text-white);
+        }
+      }
+    }
+    
+    .order-details {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .order-total {
+      color: var(--primary-color);
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .p2p-orders {
+    .p2p-orders-header h3 {
+      color: var(--text-white);
+    }
+    
+    .p2p-order-card {
+      .order-header .order-id {
+        color: var(--text-white);
+      }
+      
+      .order-details {
+        color: var(--text-secondary);
+      }
+    }
+  }
+}

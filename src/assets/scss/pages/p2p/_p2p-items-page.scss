@@ -1,0 +1,42 @@
+// P2P Items Page Styles
+.p2p-items-page {
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  padding: var(--spacing-lg);
+  
+  .p2p-items-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .p2p-items-header {
+    margin-bottom: var(--spacing-xl);
+    
+    h1 {
+      color: var(--text-primary);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .p2p-items-page {
+    background: var(--bg-darker);
+    
+    .p2p-items-header h1 {
+      color: var(--text-white);
+    }
+    
+    .p2p-items-header p {
+      color: var(--text-secondary);
+    }
+  }
+}
