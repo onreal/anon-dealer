@@ -1,11 +1,10 @@
 // Login Page Styles
 .login-page {
-  min-height: 100vh;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   
   .login-container {
     @include flex-center;
-    min-height: 100vh;
+    min-height: calc(100vh - 120px);
     padding: var(--spacing-lg);
   }
 }

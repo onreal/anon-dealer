@@ -261,7 +261,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   padding: var(--spacing-lg);
 }
@@ -344,7 +344,7 @@ img {
   align-items: center;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   padding: var(--spacing-lg);
 }
@@ -975,19 +975,17 @@ img {
 }
 
 .login-page {
-  min-height: 100vh;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 .login-page .login-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   padding: var(--spacing-lg);
 }
 
 .registration-page {
-  min-height: 100vh;
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 .registration-page .registration-container {
@@ -995,12 +993,11 @@ img {
   align-items: center;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   padding: var(--spacing-lg);
 }
 
 .dashboard-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
 }
 .dashboard-page .dashboard-container {
@@ -1058,7 +1055,6 @@ img {
 }
 
 .customers-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
   padding: var(--spacing-lg);
 }
@@ -1091,7 +1087,6 @@ img {
 }
 
 .inventory-reports-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
   padding: var(--spacing-lg);
 }
@@ -1472,7 +1467,6 @@ img {
 }
 
 .p2p-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
   padding: var(--spacing-lg);
 }
@@ -1530,7 +1524,6 @@ img {
 }
 
 .p2p-items-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
   padding: var(--spacing-lg);
 }
@@ -1563,7 +1556,6 @@ img {
 }
 
 .p2p-orders-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
   padding: var(--spacing-lg);
 }
@@ -1596,7 +1588,6 @@ img {
 }
 
 .p2p-test-page {
-  min-height: 100vh;
   background: var(--bg-secondary);
   padding: var(--spacing-lg);
 }
