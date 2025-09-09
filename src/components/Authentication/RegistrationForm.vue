@@ -229,6 +229,17 @@ export default {
       timezones
     }
   },
+  async mounted() {
+    // Load static data
+    this.loadCountries()
+    this.loadProfessions()
+    this.loadMeasureUnits()
+    this.loadProductTypes()
+    this.loadTimezones()
+    
+    // Ensure commands are available
+    await this.waitForCommands()
+  },
   computed: {
     rules() {
       return {
@@ -322,16 +333,40 @@ export default {
     }
   },
   methods: {
-    async submit() {
+    async waitForCommands() {
+      let attempts = 0
+      const maxAttempts = 50 // 5 seconds max wait
       
+      
+      while (!this.$command && attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+        attempts++
+      }
+      
+      if (!this.$command) {
+        console.error('Commands still not available after waiting')
+        throw new Error('Commands not available after waiting. Please refresh the page and try again.')
+      }
+      
+    },
+
+    async submit() {
       const formRef = this.$refs.registrationFormRef || this.registrationFormRef
       if (!formRef) {
         return
       }
-      
+
       try {
         await formRef.validate()
         this.loading = true
+        
+        // Wait for commands to be available
+        await this.waitForCommands()
+        
+        // Verify commands are working
+        if (!this.$command || !this.$command.Configuration) {
+          throw new Error('Database commands not available. Please refresh the page and try again.')
+        }
         
         // Check if already configured
         const existingConfig = await this.$command.Configuration.getOne()
