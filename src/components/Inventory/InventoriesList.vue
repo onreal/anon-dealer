@@ -141,7 +141,6 @@ export default {
         // Load items for display
         this.items = await this.$command.Item.getAll()
         
-        console.log('InventoriesList: Loaded', this.inventories.length, 'inventories')
       } catch (error) {
         console.error('Error loading inventories:', error)
         this.$message.error('Failed to load inventories')

@@ -130,12 +130,10 @@ const logOut = async () => {
   try {
     // Clear PIN from localStorage
     localStorage.removeItem('anon_pin');
-    console.log('PIN removed from localStorage');
     
     // Clear PIN from database
     let configuration = await internalInstance?.appContext.config.globalProperties.$command.Configuration.getOne();
     if (configuration) {
-      console.log('Clearing PIN from database');
       await internalInstance?.appContext.config.globalProperties.$command.Configuration
           .updatePin(configuration.ConfigurationId, '');
     }

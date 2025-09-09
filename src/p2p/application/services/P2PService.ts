@@ -29,7 +29,6 @@ export class P2PService {
     try {
       // Check if P2P is enabled
       if (!this.p2pConfig.isP2PEnabled.value) {
-        console.log('P2P is disabled, skipping initialization');
         return;
       }
 
@@ -204,19 +203,16 @@ export class P2PService {
   private setupMessageHandlers(): void {
     // Handle incoming P2P messages
     this.webRTCService.on('order', (message) => {
-      console.log('Received P2P order:', message);
       // Emit event for UI to handle
       this.emit('p2p-order-received', message.data);
     });
 
     this.webRTCService.on('status_update', (message) => {
-      console.log('Received status update:', message);
       // Emit event for UI to handle
       this.emit('p2p-status-updated', message.data);
     });
 
     this.webRTCService.on('inventory_update', (message) => {
-      console.log('Received inventory update:', message);
       // Emit event for UI to handle
       this.emit('p2p-inventory-updated', message.data);
     });
@@ -225,7 +221,6 @@ export class P2PService {
   private emit(event: string, data: any): void {
     // In a real implementation, you'd use a proper event emitter
     // For now, we'll just log the event
-    console.log(`P2P Event: ${event}`, data);
   }
 
   // Cleanup

@@ -26,7 +26,6 @@ export class SimpleP2PService {
       // Load existing data from localStorage
       await this.loadFromLocalStorage();
       this.isInitialized = true;
-      console.log('Simple P2P Service initialized successfully');
     } catch (error) {
       console.error('Failed to initialize Simple P2P Service:', error);
       throw error;

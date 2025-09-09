@@ -413,13 +413,11 @@ const createInventory = async () => {
       // Update existing inventory
       inventoryData.InventoryId = props.inventory.InventoryId
       inventoryData.CreatedOn = props.inventory.CreatedOn
-      console.log('Updating inventory with data:', inventoryData)
       await internalInstance?.appContext.config.globalProperties.$command.Inventory.update(inventoryData)
       ElMessage.success('Inventory updated successfully')
     } else {
       // Create new inventory
       inventoryData.CreatedOn = new Date()
-      console.log('Creating inventory with data:', inventoryData)
       await internalInstance?.appContext.config.globalProperties.$command.Inventory.add(inventoryData)
       ElMessage.success('Inventory created successfully!')
       resetForm()

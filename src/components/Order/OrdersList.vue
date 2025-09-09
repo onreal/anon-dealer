@@ -122,7 +122,6 @@ export default {
         this.customers = await this.$command.Customer.getAll()
         this.inventories = await this.$command.Inventory.getAll()
         
-        console.log('OrdersList: Loaded', this.orders.length, 'orders')
       } catch (error) {
         console.error('Error loading orders:', error)
         this.$message.error('Failed to load orders')

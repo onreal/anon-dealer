@@ -93,29 +93,16 @@ const loadItems = async () => {
   error.value = ''
   
   try {
-    console.log('ItemsList: Starting to load items...')
     const itemsData = await internalInstance?.appContext.config.globalProperties.$command.Item.getAll('desc')
-    console.log('ItemsList: Received items data:', itemsData)
     
     // Check if data is encrypted
     if (itemsData && itemsData.length > 0) {
       const firstItem = itemsData[0]
-      console.log('ItemsList: First item sample:', {
-        Name: firstItem.Name,
-        Description: firstItem.Description,
-        Type: firstItem.Type,
-        CreatedOn: firstItem.CreatedOn
-      })
-      
       // Check if Name looks encrypted (starts with U2FsdGVkX1)
       const isEncrypted = firstItem.Name && firstItem.Name.startsWith('U2FsdGVkX1')
-      console.log('ItemsList: Data appears to be encrypted:', isEncrypted)
     }
     
     items.value = itemsData || []
-    console.log('ItemsList: Set items.value to:', items.value)
-    console.log('ItemsList: items.value.length:', items.value.length)
-    console.log('ItemsList: items.value type:', typeof items.value)
   } catch (err) {
     console.error('ItemsList: Error loading items:', err)
     error.value = 'Failed to load items. Please try again.'
@@ -187,12 +174,9 @@ defineExpose({
 
 // Watch for changes in items array
 watch(items, (newItems) => {
-  console.log('ItemsList: items array changed:', newItems)
-  console.log('ItemsList: new items length:', newItems.length)
 }, { deep: true })
 
 onMounted(() => {
-  console.log('ItemsList: Component mounted, calling loadItems...')
   loadItems()
 })
 </script>

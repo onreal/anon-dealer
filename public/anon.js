@@ -6,10 +6,8 @@ let STORED_PIN = null;
 
 // Listen for messages from the main thread to get the PIN
 self.addEventListener('message', function(event) {
-    console.log('Worker received message:', event.data);
     if (event.data && event.data.type === 'SET_PIN') {
         STORED_PIN = event.data.pin;
-        console.log('PIN received from main thread:', STORED_PIN);
         // Reset THE_SECRET so it gets recalculated with the new PIN
         THE_SECRET = null;
     }
@@ -21,7 +19,6 @@ async function getSecret () {
     
     // Use the PIN from the main thread if available
     if (STORED_PIN) {
-        console.log('Using PIN from main thread:', STORED_PIN);
         THE_SECRET = CryptoJS.enc.Hex.parse(STORED_PIN.toString());
         return THE_SECRET;
     }
@@ -31,10 +28,8 @@ async function getSecret () {
     let pin = await fetchConfiguration()
         .then((data) => {
             if (data && data.length > 0 && data[0].Pin !== '') {
-                console.log('Got encrypted PIN from database, but need actual PIN from main thread');
                 return false; // Don't use encrypted PIN as key
             } else {
-                console.log('Register first in order to set the secret key.')
                 return false
             }
         })
@@ -44,11 +39,9 @@ async function getSecret () {
         });
     
     if (!pin) {
-        console.log('No valid PIN available, encryption will fail');
         return false;
     }
     
-    console.log('Pin from database:', pin);
     THE_SECRET = CryptoJS.enc.Hex.parse(pin.toString());
     return THE_SECRET;
 }

@@ -323,21 +323,14 @@ export default {
   },
   methods: {
     async submit() {
-      console.log('Submit button clicked!')
-      console.log('Available refs:', Object.keys(this.$refs))
-      console.log('registrationFormRef:', this.registrationFormRef)
-      console.log('$refs.registrationFormRef:', this.$refs.registrationFormRef)
       
       const formRef = this.$refs.registrationFormRef || this.registrationFormRef
       if (!formRef) {
-        console.log('No form ref found')
         return
       }
       
       try {
-        console.log('Validating form...')
         await formRef.validate()
-        console.log('Form validation passed')
         this.loading = true
         
         // Check if already configured
@@ -398,7 +391,6 @@ export default {
             const { P2PInitializer } = await import('@/p2p/application/services/P2PInitializer')
             const p2pInitializer = P2PInitializer.getInstance()
             await p2pInitializer.initialize(configuration, settings)
-            console.log('P2P system initialized after registration')
           } catch (error) {
             console.error('Failed to initialize P2P after registration:', error)
             // Don't fail registration if P2P fails

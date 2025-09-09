@@ -42,7 +42,6 @@ export class WebRTCService {
         this.ws = new WebSocket(this.signalingServer);
         
         this.ws.onopen = () => {
-          console.log('Connected to signaling server');
           this.registerPeer();
           resolve();
         };
@@ -57,7 +56,6 @@ export class WebRTCService {
         };
 
         this.ws.onclose = () => {
-          console.log('Disconnected from signaling server');
           // Attempt to reconnect after 5 seconds
           setTimeout(() => this.connectToSignalingServer(), 5000);
         };
@@ -87,7 +85,6 @@ export class WebRTCService {
     const connectionId = `${this.currentPeer.peerId}_${targetPeerId}`;
     
     if (this.peerConnections.has(connectionId)) {
-      console.log('Connection already exists');
       return;
     }
 
@@ -123,7 +120,6 @@ export class WebRTCService {
 
   private setupDataChannel(dataChannel: RTCDataChannel, targetPeerId: string): void {
     dataChannel.onopen = () => {
-      console.log(`Data channel opened with peer ${targetPeerId}`);
       this.dataChannels.set(targetPeerId, dataChannel);
     };
 
@@ -159,7 +155,6 @@ export class WebRTCService {
     };
 
     peerConnection.onconnectionstatechange = () => {
-      console.log(`Connection state with ${targetPeerId}:`, peerConnection.connectionState);
       
       if (peerConnection.connectionState === 'disconnected' || 
           peerConnection.connectionState === 'failed') {
@@ -242,14 +237,12 @@ export class WebRTCService {
   }
 
   private handlePeerList(peers: any[]): void {
-    console.log('Available peers:', peers);
     // Emit peer list event for UI
     this.emit('peer-list', peers);
   }
 
   // P2P Message Handling
   private handleP2PMessage(message: P2PMessage): void {
-    console.log('Received P2P message:', message);
     
     const handler = this.messageHandlers.get(message.type);
     if (handler) {

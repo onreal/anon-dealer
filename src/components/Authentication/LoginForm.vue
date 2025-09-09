@@ -89,21 +89,14 @@ export default {
   },
   methods: {
     async submit() {
-      console.log('Login submit button clicked!')
-      console.log('Available refs:', Object.keys(this.$refs))
-      console.log('loginFormRef:', this.loginFormRef)
-      console.log('$refs.loginFormRef:', this.$refs.loginFormRef)
       
       const formRef = this.$refs.loginFormRef || this.loginFormRef
       if (!formRef) {
-        console.log('No form ref found')
         return
       }
       
       try {
-        console.log('Validating form...')
         await formRef.validate()
-        console.log('Form validation passed')
         this.loading = true
         this.error = null
         

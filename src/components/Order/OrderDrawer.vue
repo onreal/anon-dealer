@@ -389,12 +389,6 @@ export default {
           
           const requestedQuantity = Number(this.orderForm.quantity) || 0
           
-          console.log('OrderDrawer validation:', {
-            inventoryId: selectedInventory.InventoryId,
-            availableQuantity,
-            requestedQuantity,
-            amountField: selectedInventory.Amount
-          })
           
           if (requestedQuantity > availableQuantity) {
             throw new Error(`Insufficient inventory. Available: ${availableQuantity}, Requested: ${requestedQuantity}`)

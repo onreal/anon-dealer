@@ -30,7 +30,6 @@ export class P2PInitializer {
 
       // Check if P2P is enabled
       if (!this.p2pConfig.isP2PEnabled.value) {
-        console.log('P2P is disabled, skipping initialization');
         return;
       }
 
@@ -43,7 +42,6 @@ export class P2PInitializer {
       await p2pService.initialize();
 
       this.isInitialized = true;
-      console.log('P2P System initialized successfully');
     } catch (error) {
       console.error('Failed to initialize P2P system:', error);
       // Don't throw error to prevent app from breaking

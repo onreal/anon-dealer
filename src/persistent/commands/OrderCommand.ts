@@ -38,7 +38,6 @@ export class OrderCommand extends Command {
     public async getAll(order: string = 'asc') {
         try {
             // Try with decryption first
-            console.log('OrderCommand.getAll: Attempting to load orders with decryption...')
             
             const entities = await this.connection.select({
                 from: this.tableName,
@@ -53,7 +52,6 @@ export class OrderCommand extends Command {
                 return []
             }
 
-            console.log('OrderCommand.getAll: Successfully loaded', entities.length, 'decrypted orders')
             return entities
         } catch (error) {
             console.warn('OrderCommand.getAll: Decryption failed, loading raw data:', error.message)
@@ -72,7 +70,6 @@ export class OrderCommand extends Command {
                     return []
                 }
 
-                console.log('OrderCommand.getAll: Loaded', rawEntities.length, 'raw encrypted orders')
                 return rawEntities
             } catch (rawError) {
                 console.error('OrderCommand.getAll: Both decrypted and raw queries failed:', rawError)

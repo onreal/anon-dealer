@@ -114,7 +114,6 @@ export class CustomerCommand extends Command {
     public async getAll(order: string = 'asc', includeDeleted: boolean = false) {
         try {
             // Try with decryption first
-            console.log('CustomerCommand.getAll: Attempting to load customers with decryption...')
             
             const query: any = {
                 from: this.tableName,
@@ -134,7 +133,6 @@ export class CustomerCommand extends Command {
                 return []
             }
 
-            console.log('CustomerCommand.getAll: Successfully loaded', entities.length, 'decrypted customers')
             
             // Filter out deleted customers in application logic
             if (!includeDeleted) {
@@ -167,7 +165,6 @@ export class CustomerCommand extends Command {
                     return []
                 }
 
-                console.log('CustomerCommand.getAll: Loaded', rawEntities.length, 'raw encrypted customers')
                 
                 // Filter out deleted customers in application logic
                 if (!includeDeleted) {

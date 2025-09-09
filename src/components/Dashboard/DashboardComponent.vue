@@ -233,7 +233,6 @@ export default {
         const p2pInitializer = P2PInitializer.getInstance()
         await p2pInitializer.initialize(configuration, settings)
         
-        console.log('P2P system initialized successfully')
       } catch (error) {
         console.error('Failed to initialize P2P system:', error)
         // Don't show error message to user as P2P is optional
@@ -242,27 +241,11 @@ export default {
     
     async loadStats() {
       try {
-        console.log('Dashboard: Starting to load stats...')
-        
-        console.log('Dashboard: Loading items...')
         const items = await this.$command.Item.getAll()
-        console.log('Dashboard: Items loaded:', items?.length || 0)
-        
-        console.log('Dashboard: Loading inventories...')
         const inventories = await this.$command.Inventory.getAll()
-        console.log('Dashboard: Inventories loaded:', inventories?.length || 0)
-        
-        console.log('Dashboard: Loading customers...')
         const customers = await this.$command.Customer.getAll()
-        console.log('Dashboard: Customers loaded:', customers?.length || 0)
-        
-        console.log('Dashboard: Loading orders...')
         const orders = await this.$command.Order.getAll()
-        console.log('Dashboard: Orders loaded:', orders?.length || 0)
-        
-        console.log('Dashboard: Loading sales...')
         const sales = await this.$command.InventorySale.getAll()
-        console.log('Dashboard: Sales loaded:', sales?.length || 0)
         
         this.stats.totalItems = items?.length || 0
         this.stats.totalInventories = inventories?.length || 0
@@ -270,7 +253,6 @@ export default {
         this.stats.totalOrders = orders?.length || 0
         this.stats.totalSales = sales?.length || 0
         
-        console.log('Dashboard: Stats updated:', this.stats)
       } catch (error) {
         console.error('Dashboard: Error loading stats:', error)
       }
@@ -279,27 +261,11 @@ export default {
     async loadRecentActivity() {
       this.loadingActivity = true
       try {
-        console.log('Dashboard: Starting to load recent activity...')
-        
-        console.log('Dashboard: Loading recent items...')
         const items = await this.$command.Item.getAll('desc')
-        console.log('Dashboard: Recent items loaded:', items?.length || 0)
-        
-        console.log('Dashboard: Loading recent inventories...')
         const inventories = await this.$command.Inventory.getAll('desc')
-        console.log('Dashboard: Recent inventories loaded:', inventories?.length || 0)
-        
-        console.log('Dashboard: Loading recent sales...')
         const sales = await this.$command.InventorySale.getAll('desc')
-        console.log('Dashboard: Recent sales loaded:', sales?.length || 0)
-        
-        console.log('Dashboard: Loading recent customers...')
         const customers = await this.$command.Customer.getAll('desc')
-        console.log('Dashboard: Recent customers loaded:', customers?.length || 0)
-        
-        console.log('Dashboard: Loading recent orders...')
         const orders = await this.$command.Order.getAll('desc')
-        console.log('Dashboard: Recent orders loaded:', orders?.length || 0)
         
         const activities = []
         

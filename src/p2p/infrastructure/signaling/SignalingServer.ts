@@ -35,7 +35,6 @@ export class SignalingServer {
 
   private setupWebSocketServer(): void {
     this.wss.on('connection', (ws: WebSocket, req: IncomingMessage) => {
-      console.log('New peer connected');
       
       ws.on('message', (data: Buffer) => {
         try {
@@ -64,7 +63,6 @@ export class SignalingServer {
       }, 30000);
     });
 
-    console.log(`Signaling server running on port ${this.port}`);
   }
 
   private handleMessage(ws: WebSocket, message: SignalingMessage): void {
@@ -105,7 +103,6 @@ export class SignalingServer {
     };
 
     this.peers.set(message.peerId, peer);
-    console.log(`Peer registered: ${message.name} (${message.peerId})`);
 
     // Send confirmation
     ws.send(JSON.stringify({ 
@@ -183,7 +180,6 @@ export class SignalingServer {
     for (const [peerId, peer] of this.peers.entries()) {
       if (peer.ws === ws) {
         this.peers.delete(peerId);
-        console.log(`Peer disconnected: ${peer.name} (${peerId})`);
         this.broadcastPeerList();
         break;
       }
@@ -236,7 +232,6 @@ if (require.main === module) {
   
   // Graceful shutdown
   process.on('SIGINT', () => {
-    console.log('Shutting down signaling server...');
     server.close();
     process.exit(0);
   });

@@ -53,7 +53,6 @@ export default {
 
         // Add function to send PIN to worker
         app.config.globalProperties.$sendPinToWorker = (pin: string) => {
-            console.log('Sending PIN to worker via $sendPinToWorker:', pin);
             if (indexedDBConn.worker) {
                 indexedDBConn.worker.postMessage({
                     type: 'SET_PIN',

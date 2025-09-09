@@ -88,7 +88,6 @@ export class Command {
     }
 
     async list(limit: number = 10, order: string = 'asc') {
-        console.log('list', this.tableName, limit, order)
         const entities = await this.connection.select({
             from: this.tableName,
             limit,
@@ -109,7 +108,6 @@ export class Command {
     async getAll(order: string = 'asc') {
         try {
             // Temporarily disable decryption to avoid Malformed UTF-8 data errors
-            console.log(`Command.getAll: Loading ${this.tableName} without decryption (temporary fix)`)
             
             const entities = await this.connection.select({
                 from: this.tableName,
@@ -124,7 +122,6 @@ export class Command {
                 return []
             }
 
-            console.log(`Command.getAll: Loaded ${entities.length} entities from ${this.tableName}`)
             return entities
         } catch (error) {
             console.error(`Command.getAll: Failed to load ${this.tableName}:`, error)
