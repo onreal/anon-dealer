@@ -3,6 +3,8 @@ import { Repository } from '../../../persistent/repository/Repository';
 import { P2POrder, P2POrderStatus } from '../../domain/models/Peer';
 
 export class P2POrderRepository extends Repository<P2POrder> {
+  private static instance: P2POrderRepository;
+
   constructor() {
     super('p2p_orders', {
       orderId: { dataType: DATA_TYPE.String, primaryKey: true, encrypt: true },
@@ -17,6 +19,13 @@ export class P2POrderRepository extends Repository<P2POrder> {
       updatedAt: { dataType: DATA_TYPE.DateTime, notNull: true, encrypt: true },
       completedAt: { dataType: DATA_TYPE.DateTime, encrypt: true }
     });
+  }
+
+  static getInstance(): P2POrderRepository {
+    if (!P2POrderRepository.instance) {
+      P2POrderRepository.instance = new P2POrderRepository();
+    }
+    return P2POrderRepository.instance;
   }
 
   static getRepository() {

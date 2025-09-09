@@ -7,7 +7,7 @@ export class P2PDatabase {
   private isInitialized: boolean = false;
 
   private constructor() {
-    this.connection = new Connection();
+    this.connection = new Connection(new Worker("jsstore.worker.js"));
   }
 
   static getInstance(): P2PDatabase {

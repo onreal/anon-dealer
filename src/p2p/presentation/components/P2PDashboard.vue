@@ -4,6 +4,27 @@
     <div class="p2p-header">
       <h1>P2P Network</h1>
       <div class="p2p-status">
+        <!-- Signaling Server Status -->
+        <div class="signaling-status">
+          <el-tag 
+            :type="signalingStatus === 'connected' ? 'success' : signalingStatus === 'connecting' ? 'warning' : 'danger'"
+            :icon="getSignalingIcon()"
+          >
+            {{ getSignalingStatusText() }}
+          </el-tag>
+          <el-tooltip content="Refresh signaling server status" placement="top">
+            <el-button 
+              size="small" 
+              type="primary" 
+              :icon="Loading"
+              :loading="signalingStatus === 'connecting'"
+              @click="checkSignalingServerStatus"
+              circle
+            />
+          </el-tooltip>
+        </div>
+        
+        <!-- Peer Status -->
         <el-tag :type="isOnline ? 'success' : 'danger'">
           {{ isOnline ? 'Online' : 'Offline' }}
         </el-tag>
@@ -31,6 +52,17 @@
 
     <!-- Stats Cards -->
     <div class="stats-grid" v-if="currentPeer">
+      <!-- Signaling Server Status Card -->
+      <div class="stat-card signaling-card" :class="signalingStatus">
+        <div class="stat-icon">
+          <el-icon><CircleCheck v-if="signalingStatus === 'connected'" /><CircleClose v-else-if="signalingStatus === 'error'" /><Loading v-else /></el-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ getSignalingStatusText() }}</h3>
+          <p>Signaling Server</p>
+        </div>
+      </div>
+      
       <div class="stat-card">
         <div class="stat-icon">
           <el-icon><Connection /></el-icon>
@@ -177,19 +209,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { User, Share, Key, Connection, Box, List } from '@element-plus/icons-vue';
+import { User, Share, Key, Connection, Box, List, CircleCheck, CircleClose, Loading } from '@element-plus/icons-vue';
 import { SimpleP2PService } from '../../application/services/SimpleP2PService';
+import { WebRTCService } from '../../infrastructure/communication/WebRTCService';
 import { Peer, PeerConnection, P2POrder, AccessLevel } from '../../domain/models/Peer';
 
 // Reactive data
 const p2pService = SimpleP2PService.getInstance();
+const webRTCService = WebRTCService.getInstance();
 const currentPeer = ref<Peer | null>(null);
 const activeConnections = ref<PeerConnection[]>([]);
 const visibleItems = ref<string[]>([]);
 const p2pOrders = ref<P2POrder[]>([]);
 const isOnline = ref(false);
+const signalingStatus = ref<'disconnected' | 'connecting' | 'connected' | 'error'>('disconnected');
 
 // Dialog states
 const showCreatePeerDialog = ref(false);
@@ -248,6 +283,75 @@ const recentOrders = computed(() => {
 });
 
 // Methods
+const checkSignalingServerStatus = async () => {
+  try {
+    signalingStatus.value = 'connecting';
+    
+    // Check if we have a current peer
+    if (!currentPeer.value) {
+      signalingStatus.value = 'disconnected';
+      return;
+    }
+    
+    // Try to ping the signaling server
+    const response = await fetch('http://localhost:8080/health', {
+      method: 'GET',
+      mode: 'no-cors' // This will work even if CORS is not configured
+    }).catch(() => {
+      // If fetch fails, try WebSocket connection
+      return new Promise((resolve, reject) => {
+        const ws = new WebSocket('ws://localhost:8080');
+        const timeout = setTimeout(() => {
+          ws.close();
+          reject(new Error('Connection timeout'));
+        }, 5000);
+        
+        ws.onopen = () => {
+          clearTimeout(timeout);
+          ws.close();
+          resolve({ ok: true });
+        };
+        
+        ws.onerror = () => {
+          clearTimeout(timeout);
+          reject(new Error('WebSocket connection failed'));
+        };
+      });
+    });
+    
+    signalingStatus.value = 'connected';
+  } catch (error) {
+    console.error('Signaling server connection failed:', error);
+    signalingStatus.value = 'error';
+  }
+};
+
+const getSignalingStatusText = () => {
+  switch (signalingStatus.value) {
+    case 'connected':
+      return 'Signaling Server Connected';
+    case 'connecting':
+      return 'Connecting...';
+    case 'error':
+      return 'Signaling Server Offline';
+    default:
+      return 'Signaling Server Disconnected';
+  }
+};
+
+const getSignalingIcon = () => {
+  switch (signalingStatus.value) {
+    case 'connected':
+      return CircleCheck;
+    case 'connecting':
+      return Loading;
+    case 'error':
+      return CircleClose;
+    default:
+      return CircleClose;
+  }
+};
+
 const loadData = async () => {
   try {
     if (!p2pService) {
@@ -262,6 +366,9 @@ const loadData = async () => {
       visibleItems.value = await p2pService.getVisibleItems();
       p2pOrders.value = await p2pService.getP2POrders();
       isOnline.value = true;
+      
+      // Check signaling server status
+      await checkSignalingServerStatus();
     }
   } catch (error) {
     console.error('Error loading P2P data:', error);
@@ -381,13 +488,40 @@ const formatDate = (date: Date | string) => {
   return new Date(date).toLocaleDateString();
 };
 
+// Periodic status check
+let statusCheckInterval: NodeJS.Timeout | null = null;
+
+const startStatusCheck = () => {
+  if (statusCheckInterval) {
+    clearInterval(statusCheckInterval);
+  }
+  
+  statusCheckInterval = setInterval(async () => {
+    if (currentPeer.value) {
+      await checkSignalingServerStatus();
+    }
+  }, 10000); // Check every 10 seconds
+};
+
+const stopStatusCheck = () => {
+  if (statusCheckInterval) {
+    clearInterval(statusCheckInterval);
+    statusCheckInterval = null;
+  }
+};
+
 // Lifecycle
 onMounted(async () => {
   try {
     await loadData();
+    startStatusCheck();
   } catch (error) {
     console.error('Error in P2P Dashboard onMounted:', error);
   }
+});
+
+onUnmounted(() => {
+  stopStatusCheck();
 });
 </script>
 
@@ -415,7 +549,14 @@ onMounted(async () => {
 .p2p-status {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.signaling-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .peer-name {
@@ -469,6 +610,70 @@ onMounted(async () => {
   margin: 0;
   color: var(--el-text-color-regular);
   font-size: 14px;
+}
+
+/* Signaling Server Status Card */
+.signaling-card.connected {
+  border-left: 4px solid var(--el-color-success);
+  background: linear-gradient(135deg, var(--el-color-success-light-9), var(--el-bg-color));
+}
+
+.signaling-card.connecting {
+  border-left: 4px solid var(--el-color-warning);
+  background: linear-gradient(135deg, var(--el-color-warning-light-9), var(--el-bg-color));
+}
+
+.signaling-card.error {
+  border-left: 4px solid var(--el-color-danger);
+  background: linear-gradient(135deg, var(--el-color-danger-light-9), var(--el-bg-color));
+}
+
+.signaling-card.disconnected {
+  border-left: 4px solid var(--el-color-info);
+  background: linear-gradient(135deg, var(--el-color-info-light-9), var(--el-bg-color));
+}
+
+.signaling-card .stat-icon {
+  font-size: 28px;
+}
+
+.signaling-card.connected .stat-icon {
+  color: var(--el-color-success);
+}
+
+.signaling-card.connecting .stat-icon {
+  color: var(--el-color-warning);
+  animation: spin 1s linear infinite;
+}
+
+.signaling-card.error .stat-icon {
+  color: var(--el-color-danger);
+}
+
+.signaling-card.disconnected .stat-icon {
+  color: var(--el-color-info);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Dark theme support for signaling card */
+.dark .signaling-card.connected {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), var(--el-bg-color));
+}
+
+.dark .signaling-card.connecting {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--el-bg-color));
+}
+
+.dark .signaling-card.error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), var(--el-bg-color));
+}
+
+.dark .signaling-card.disconnected {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), var(--el-bg-color));
 }
 
 .connections-section,

@@ -3,6 +3,8 @@ import { Repository } from '../../../persistent/repository/Repository';
 import { ItemVisibility, VisibilityType, AccessLevel } from '../../domain/models/Peer';
 
 export class ItemVisibilityRepository extends Repository<ItemVisibility> {
+  private static instance: ItemVisibilityRepository;
+
   constructor() {
     super('item_visibility', {
       visibilityId: { dataType: DATA_TYPE.String, primaryKey: true, encrypt: true },
@@ -14,6 +16,13 @@ export class ItemVisibilityRepository extends Repository<ItemVisibility> {
       createdAt: { dataType: DATA_TYPE.DateTime, notNull: true, encrypt: true },
       updatedAt: { dataType: DATA_TYPE.DateTime, notNull: true, encrypt: true }
     });
+  }
+
+  static getInstance(): ItemVisibilityRepository {
+    if (!ItemVisibilityRepository.instance) {
+      ItemVisibilityRepository.instance = new ItemVisibilityRepository();
+    }
+    return ItemVisibilityRepository.instance;
   }
 
   static getRepository() {

@@ -3,6 +3,8 @@ import { Repository } from '../../../persistent/repository/Repository';
 import { PeerInvitation, AccessLevel } from '../../domain/models/Peer';
 
 export class PeerInvitationRepository extends Repository<PeerInvitation> {
+  private static instance: PeerInvitationRepository;
+
   constructor() {
     super('peer_invitations', {
       invitationId: { dataType: DATA_TYPE.String, primaryKey: true, encrypt: true },
@@ -14,6 +16,13 @@ export class PeerInvitationRepository extends Repository<PeerInvitation> {
       usedByPeerId: { dataType: DATA_TYPE.String, encrypt: true },
       createdAt: { dataType: DATA_TYPE.DateTime, notNull: true, encrypt: true }
     });
+  }
+
+  static getInstance(): PeerInvitationRepository {
+    if (!PeerInvitationRepository.instance) {
+      PeerInvitationRepository.instance = new PeerInvitationRepository();
+    }
+    return PeerInvitationRepository.instance;
   }
 
   static getRepository() {
