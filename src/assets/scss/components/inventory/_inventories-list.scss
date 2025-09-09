@@ -1,0 +1,85 @@
+// Inventories List Component Styles
+.inventories-list {
+  @include card;
+  
+  .inventories-header {
+    @include flex-between;
+    margin-bottom: var(--spacing-lg);
+    
+    h3 {
+      color: var(--text-primary);
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  
+  .inventories-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+    
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .inventory-card {
+    @include card;
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .inventory-name {
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .inventory-description {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .inventory-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-light);
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .inventories-list {
+    .inventories-header h3 {
+      color: var(--text-white);
+    }
+    
+    .inventory-card {
+      .inventory-name {
+        color: var(--text-white);
+      }
+      
+      .inventory-description {
+        color: var(--text-secondary);
+      }
+      
+      .inventory-stats {
+        color: var(--text-light);
+      }
+    }
+  }
+}

@@ -65,7 +65,7 @@ export default {
         };
 
         app.provide('commands', commands)
-        
+
         // Add global reset function for manual database clearing
         // @ts-ignore
         window.resetAnonDatabase = async () => {

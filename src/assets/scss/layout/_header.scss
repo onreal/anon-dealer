@@ -1,0 +1,36 @@
+// Header Layout Styles
+.header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  padding: var(--spacing-md) var(--spacing-lg);
+  
+  .header-content {
+    @include flex-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .header-actions {
+    @include flex-center;
+    gap: var(--spacing-md);
+  }
+}
+
+// Dark mode styles
+.dark {
+  .header {
+    background: var(--bg-dark);
+    border-color: var(--border-dark);
+    
+    .logo {
+      color: var(--primary-color);
+    }
+  }
+}

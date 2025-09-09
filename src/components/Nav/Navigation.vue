@@ -42,6 +42,21 @@
           
           <div class="menu-divider"></div>
           
+          <div class="menu-item" @click="navigateTo('/p2p')" :class="{ active: isActive('/p2p') }">
+            <ElIcon><Connection /></ElIcon>
+            <span>P2P Network</span>
+          </div>
+          <div class="menu-item" @click="navigateTo('/p2p/items')" :class="{ active: isActive('/p2p/items') }">
+            <ElIcon><Share /></ElIcon>
+            <span>P2P Items</span>
+          </div>
+          <div class="menu-item" @click="navigateTo('/p2p/orders')" :class="{ active: isActive('/p2p/orders') }">
+            <ElIcon><List /></ElIcon>
+            <span>P2P Orders</span>
+          </div>
+          
+          <div class="menu-divider"></div>
+          
           <div class="menu-item logout" @click="logOut">
             <ElIcon><SwitchButton /></ElIcon>
             <span>Logout</span>
@@ -64,14 +79,17 @@
     <ElMenuItem index="3" @click="navigateTo('/items')">Items</ElMenuItem>
     <ElMenuItem index="4" @click="navigateTo('/customers')">Customers</ElMenuItem>
     <ElMenuItem index="5" @click="navigateTo('/reports')">Reports</ElMenuItem>
-    <ElMenuItem index="6" @click="logOut">Logout</ElMenuItem>
+    <ElMenuItem index="6" @click="navigateTo('/p2p')">P2P Network</ElMenuItem>
+    <ElMenuItem index="7" @click="navigateTo('/p2p/items')">P2P Items</ElMenuItem>
+    <ElMenuItem index="8" @click="navigateTo('/p2p/orders')">P2P Orders</ElMenuItem>
+    <ElMenuItem index="9" @click="logOut">Logout</ElMenuItem>
   </ElMenu>
 </template>
 
 <script lang="ts" setup>
 import { useRoute, useRouter } from 'vue-router'
 import { getCurrentInstance, ref, onMounted, onUnmounted } from 'vue'
-import { Close, House, Box, List, User, DataAnalysis, SwitchButton } from '@element-plus/icons-vue'
+import { Close, House, Box, List, User, DataAnalysis, SwitchButton, Connection, Share } from '@element-plus/icons-vue'
 
 const router = useRouter();
 const route = useRoute();

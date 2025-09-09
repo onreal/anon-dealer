@@ -1,0 +1,31 @@
+// Footer Layout Styles
+.footer {
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-light);
+  padding: var(--spacing-lg);
+  margin-top: auto;
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    
+    p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .footer {
+    background: var(--bg-dark);
+    border-color: var(--border-dark);
+    
+    .footer-content p {
+      color: var(--text-secondary);
+    }
+  }
+}

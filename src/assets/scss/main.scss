@@ -1,0 +1,42 @@
+// Anon Dealer - Anonymous Business Management System
+// Main SCSS file - imports all other SCSS files
+
+// Utilities
+@import 'utilities/variables';
+@import 'utilities/mixins';
+@import 'utilities/reset';
+
+// Layout
+@import 'layout/header';
+@import 'layout/navigation';
+@import 'layout/footer';
+
+// Components
+@import 'components/authentication/login-form';
+@import 'components/authentication/registration-form';
+@import 'components/dashboard/dashboard-component';
+@import 'components/dashboard/reports';
+@import 'components/inventory/inventories-list';
+@import 'components/inventory/inventory-drawer';
+@import 'components/item/item-drawer';
+@import 'components/item/items-list';
+@import 'components/nav/navigation';
+
+// Pages
+@import 'pages/login';
+@import 'pages/registration';
+@import 'pages/dashboard';
+@import 'pages/customers';
+@import 'pages/inventory-reports';
+
+// P2P Components
+@import 'components/p2p/p2p-dashboard';
+@import 'components/p2p/p2p-items';
+@import 'components/p2p/p2p-orders';
+@import 'components/p2p/p2p-error-boundary';
+
+// P2P Pages
+@import 'pages/p2p/p2p-page';
+@import 'pages/p2p/p2p-items-page';
+@import 'pages/p2p/p2p-orders-page';
+@import 'pages/p2p/p2p-test-page';

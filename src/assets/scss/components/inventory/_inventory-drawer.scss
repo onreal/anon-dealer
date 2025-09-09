@@ -1,0 +1,71 @@
+// Inventory Drawer Component Styles
+.inventory-drawer {
+  @include card;
+  
+  .drawer-header {
+    @include flex-between;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-light);
+    
+    h3 {
+      color: var(--text-primary);
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  
+  .drawer-content {
+    .form-section {
+      margin-bottom: var(--spacing-lg);
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      h4 {
+        color: var(--text-primary);
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 var(--spacing-md) 0;
+      }
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: flex-end;
+      margin-top: var(--spacing-lg);
+      padding-top: var(--spacing-md);
+      border-top: 1px solid var(--border-light);
+      
+      @include mobile {
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .inventory-drawer {
+    .drawer-header {
+      border-color: var(--border-dark);
+      
+      h3 {
+        color: var(--text-white);
+      }
+    }
+    
+    .drawer-content {
+      .form-section h4 {
+        color: var(--text-white);
+      }
+      
+      .form-actions {
+        border-color: var(--border-dark);
+      }
+    }
+  }
+}

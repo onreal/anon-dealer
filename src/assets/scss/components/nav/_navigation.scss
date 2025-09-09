@@ -1,0 +1,68 @@
+// Navigation Component Styles
+.navigation-component {
+  @include card;
+  
+  .nav-header {
+    @include flex-between;
+    margin-bottom: var(--spacing-lg);
+    
+    h3 {
+      color: var(--text-primary);
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  
+  .nav-menu {
+    .nav-item {
+      margin-bottom: var(--spacing-sm);
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      a {
+        display: block;
+        padding: var(--spacing-md);
+        color: var(--text-primary);
+        text-decoration: none;
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+        
+        &:hover {
+          background: var(--bg-secondary);
+          color: var(--primary-color);
+        }
+        
+        &.active {
+          background: var(--primary-color);
+          color: var(--text-white);
+        }
+      }
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .navigation-component {
+    .nav-header h3 {
+      color: var(--text-white);
+    }
+    
+    .nav-menu .nav-item a {
+      color: var(--text-white);
+      
+      &:hover {
+        background: var(--bg-dark);
+        color: var(--primary-color);
+      }
+      
+      &.active {
+        background: var(--primary-color);
+        color: var(--text-white);
+      }
+    }
+  }
+}

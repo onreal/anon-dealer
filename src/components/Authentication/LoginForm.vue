@@ -74,7 +74,7 @@ export default {
       }),
       loading: false,
       error: null,
-      loginFormRef: ref()
+      loginFormRef: null
     }
   },
   computed: {
@@ -89,10 +89,21 @@ export default {
   },
   methods: {
     async submit() {
-      if (!this.loginFormRef) return
+      console.log('Login submit button clicked!')
+      console.log('Available refs:', Object.keys(this.$refs))
+      console.log('loginFormRef:', this.loginFormRef)
+      console.log('$refs.loginFormRef:', this.$refs.loginFormRef)
+      
+      const formRef = this.$refs.loginFormRef || this.loginFormRef
+      if (!formRef) {
+        console.log('No form ref found')
+        return
+      }
       
       try {
-        await this.loginFormRef.validate()
+        console.log('Validating form...')
+        await formRef.validate()
+        console.log('Form validation passed')
         this.loading = true
         this.error = null
         
@@ -106,8 +117,10 @@ export default {
         this.$sendPinToWorker(this.loginForm.pin)
         
         ElMessage.success('Successfully unlocked!')
-        window.location.reload()
+        await router.push({ name: 'Dashboard' })
       } catch (error) {
+        console.error('Login error:', error)
+        console.error('Error details:', error.message)
         if (error.message) {
           this.error = error.message
         }
@@ -132,93 +145,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-}
-
-.login-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border: 1px solid #e2e8f0;
-  padding: 40px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.login-header h2 {
-  color: #1e293b;
-  margin: 0 0 8px 0;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.login-header p {
-  color: #64748b;
-  margin: 0;
-  font-size: 14px;
-}
-
-.login-form {
-  margin-bottom: 20px;
-}
-
-.error-message {
-  margin-bottom: 20px;
-}
-
-.login-button {
-  width: 100%;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-}
-
-.login-footer {
-  text-align: center;
-}
-
-.security-note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #64748b;
-  font-size: 12px;
-  margin: 0;
-}
-
-.security-note .el-icon {
-  color: #67c23a;
-}
-
-/* Dark mode styles */
-.dark .login-card {
-  background: #1e293b;
-  border-color: #334155;
-}
-
-.dark .login-header h2 {
-  color: #f8fafc;
-}
-
-.dark .login-header p {
-  color: #cbd5e1;
-}
-
-.dark .security-note {
-  color: #cbd5e1;
-}
-</style>
+<!-- Styles are now in /src/assets/scss/components/authentication/_login-form.scss -->

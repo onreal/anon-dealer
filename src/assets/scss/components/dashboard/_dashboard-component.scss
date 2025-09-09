@@ -1,0 +1,82 @@
+// Dashboard Component Styles
+.dashboard-component {
+  @include card;
+  
+  .dashboard-header {
+    margin-bottom: var(--spacing-lg);
+    
+    h2 {
+      color: var(--text-primary);
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 var(--spacing-sm) 0;
+    }
+    
+    p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+  }
+  
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .stat-card {
+    @include card;
+    text-align: center;
+    padding: var(--spacing-md);
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+  }
+  
+  .dashboard-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+  
+  .action-button {
+    @include button-primary;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 14px;
+    
+    &.secondary {
+      @include button-secondary;
+    }
+  }
+}
+
+// Dark mode styles
+.dark {
+  .dashboard-component {
+    .dashboard-header h2 {
+      color: var(--text-white);
+    }
+    
+    .dashboard-header p {
+      color: var(--text-secondary);
+    }
+    
+    .stat-card .stat-label {
+      color: var(--text-secondary);
+    }
+  }
+}

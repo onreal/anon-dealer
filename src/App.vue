@@ -13,10 +13,9 @@
       <router-view />
     </ElMain>
     <ElFooter>
-      Extend as you want this open source project
       <Navigation/>
     </ElFooter>
-    
+
     <!-- Dark Mode Toggle -->
     <DarkModeToggle />
   </ElContainer>
@@ -24,6 +23,7 @@
 
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import Navigation from "./components/Nav/Navigation.vue";
 import DarkModeToggle from "./components/DarkModeToggle.vue";
 import { useDarkMode } from "./composables/DarkMode";
