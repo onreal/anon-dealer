@@ -17,8 +17,11 @@ export default {
 
 <style scoped>
 .items-page {
-  min-height: 100vh;
   background-color: #f5f7fa;
+}
+
+.dark .items-page {
+  background-color: #0f172a;
 }
 </style>
 

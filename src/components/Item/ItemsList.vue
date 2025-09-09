@@ -93,6 +93,12 @@ const loadItems = async () => {
   error.value = ''
   
   try {
+    // Check if commands are available
+    if (!internalInstance?.appContext.config.globalProperties.$command) {
+      loading.value = false
+      return
+    }
+
     const itemsData = await internalInstance?.appContext.config.globalProperties.$command.Item.getAll('desc')
     
     // Check if data is encrypted
@@ -274,6 +280,10 @@ onMounted(() => {
   width: 100%;
   height: 200px;
   background: #f8f9fa;
+}
+
+.dark .item-image {
+  background: #1e293b;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,6 +318,10 @@ onMounted(() => {
   font-size: 14px;
   font-weight: 500;
   background: #f0f4ff;
+}
+
+.dark .item-type {
+  background: #1e3a8a;
   padding: 4px 8px;
   border-radius: 4px;
   display: inline-block;

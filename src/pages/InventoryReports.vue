@@ -546,6 +546,11 @@ export default {
 .trend.neutral { background: #e2e3e5; color: #383d41; }
 .trend.warning { background: #fff3cd; color: #856404; }
 
+.dark .trend.positive { background: #14532d; color: #bbf7d0; }
+.dark .trend.negative { background: #7f1d1d; color: #fecaca; }
+.dark .trend.neutral { background: #374151; color: #d1d5db; }
+.dark .trend.warning { background: #78350f; color: #fde68a; }
+
 .inventory-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -580,6 +585,10 @@ export default {
   align-items: center;
   padding: 12px;
   background: #f8f9fa;
+}
+
+.dark .detail-value, .dark .forecast-value {
+  background: #1e293b;
   border-radius: 8px;
 }
 

@@ -532,6 +532,10 @@ export default {
 .trend.negative { background: #f8d7da; color: #721c24; }
 .trend.neutral { background: #e2e3e5; color: #383d41; }
 
+.dark .trend.positive { background: #14532d; color: #bbf7d0; }
+.dark .trend.negative { background: #7f1d1d; color: #fecaca; }
+.dark .trend.neutral { background: #374151; color: #d1d5db; }
+
 .charts-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -637,6 +641,11 @@ export default {
 .forecast-status.warning { background: #fff3cd; color: #856404; }
 .forecast-status.low { background: #f8d7da; color: #721c24; }
 .forecast-status.critical { background: #f5c6cb; color: #721c24; }
+
+.dark .forecast-status.healthy { background: #14532d; color: #bbf7d0; }
+.dark .forecast-status.warning { background: #78350f; color: #fde68a; }
+.dark .forecast-status.low { background: #7f1d1d; color: #fecaca; }
+.dark .forecast-status.critical { background: #991b1b; color: #fca5a5; }
 
 .forecast-details {
   display: flex;

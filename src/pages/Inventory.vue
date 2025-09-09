@@ -17,8 +17,11 @@ export default {
 
 <style scoped>
 .inventory-page {
-  min-height: 100vh;
   background-color: #f5f7fa;
+}
+
+.dark .inventory-page {
+  background-color: #0f172a;
 }
 </style>
 

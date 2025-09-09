@@ -383,6 +383,10 @@ This customer has ${customerOrders.length} order(s). The customer will be marked
   margin-bottom: 16px;
   padding: 12px;
   background: #f8fafc;
+}
+
+.dark .customer-stats {
+  background: #1e293b;
   border-radius: 8px;
 }
 

@@ -32,7 +32,6 @@ onMounted(async () => {
 
 <style scoped>
 .p2p-page {
-  min-height: 100vh;
   background: var(--el-bg-color-page);
 }
 
