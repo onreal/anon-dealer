@@ -1,5 +1,4 @@
 import {Store} from "./Store";
-import {globals} from "../main";
 
 interface CurrentSession extends Object {
     isLoggedIn: boolean,
@@ -30,42 +29,46 @@ export class Session extends Store<CurrentSession> {
 
     private async isInitialized(): Promise<boolean> {
         let config = await this.getConfiguration()
+        return config !== null
+    }
+
+    private async isLoggedIn(): Promise<boolean> {
+        let config = await this.getConfiguration()
         if (!config) {
             return false
         }
 
-        return true;
-    }
-
-    private async isLoggedIn(): Promise<boolean> {
-        // Check localStorage first (faster)
-        const localStoragePin = localStorage.getItem('anon_pin');
-        if (localStoragePin && localStoragePin !== '') {
-            return true;
-        }
-        
-        // Fallback to database check
-        let configPin = await this.getConfigurationPin()
-        if (!configPin || configPin === '' || configPin === null) {
-            return false
-        }
-
-        return true;
+        // @ts-ignore
+        return config.Pin !== null && config.Pin !== ''
     }
 
     // @ts-ignore
     private async getSettings(): Promise<object> {
         if (this.settings === null) {
-            this.settings = await globals.$command.settings.getOne()
+            // Get globals from window to avoid circular dependency
+            const globals = (window as any).__VUE_APP_GLOBALS__;
+            if (globals && globals.$command) {
+                this.settings = await globals.$command.settings.getOne()
+            } else {
+                return {};
+            }
         }
 
-        return this.settings as object
+        return this.settings
     }
 
     private async getConfiguration(): Promise<object> {
-        this.configuration = await globals.$command.Configuration.getOne()
+        if (this.configuration === null) {
+            // Get globals from window to avoid circular dependency
+            const globals = (window as any).__VUE_APP_GLOBALS__;
+            if (globals && globals.$command) {
+                this.configuration = await globals.$command.Configuration.getOne()
+            } else {
+                return null;
+            }
+        }
 
-        return this.configuration as object
+        return this.configuration
     }
 
     public dissolve(): void {
