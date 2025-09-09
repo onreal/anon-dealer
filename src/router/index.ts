@@ -24,6 +24,8 @@ const P2PItemsPage = () => import("../p2p/presentation/pages/P2PItemsPage.vue");
 const P2POrdersPage = () => import("../p2p/presentation/pages/P2POrdersPage.vue");
 // @ts-ignore
 const P2PTestPage = () => import("../p2p/presentation/pages/P2PTestPage.vue");
+// @ts-ignore
+const AppInitialization = () => import("../components/Loading/AppInitialization.vue");
 import {session} from "../composables/Session";
 
 const routes = [
@@ -36,6 +38,12 @@ const routes = [
         path: "/register",
         name: "Registration",
         component: Registration,
+    },
+    {
+        path: "/initializing",
+        name: "AppInitialization",
+        component: AppInitialization,
+        props: true
     },
     {
         path: "/",
@@ -94,29 +102,54 @@ const router = createRouter({
     routes,
 });
 
-// Temporarily disabled router guard to fix circular dependency
-// @ts-ignore
-// router.beforeEach(async (to, from, next) => {
+// Router guard to handle authentication and worker initialization
+router.beforeEach(async (to, from, next) => {
+    try {
+        // Always allow access to registration, login, and initialization screen
+        if (to.path === '/register' || to.path === '/login' || to.path === '/initializing') {
+            next()
+            return
+        }
 
-//     const sess = await session();
-//     const data = await sess.data()
-//     if (data.isLoggedIn) {
-//         // Allow access to all routes when logged in
-//         next()
-//         return
-//     } else if (data.isInitialized) {
-//         if (to.path !== '/login') {
-//             next('/login')
-//             return
-//         }
-//     } else {
-//         if (to.path !== '/register') {
-//             next('/register')
-//             return
-//         }
-//     }
+        // Check if commands are available before trying to get session data
+        const globals = (window as any).__VUE_APP_GLOBALS__;
+        if (!globals || !globals.$command) {
+            // Redirect to initialization screen with the target route as a query parameter
+            next({
+                path: '/initializing',
+                query: { target: to.fullPath }
+            })
+            return
+        }
 
-//     next()
-// })
+        const sess = await session();
+        const data = await sess.data()
+        
+        if (data.isLoggedIn) {
+            // Allow access to all routes when logged in
+            next()
+            return
+        } else if (data.isInitialized) {
+            if (to.path !== '/login') {
+                next('/login')
+                return
+            }
+        } else {
+            if (to.path !== '/register') {
+                next('/register')
+                return
+            }
+        }
+
+        next()
+    } catch (error) {
+        console.error('Router guard error:', error)
+        // If there's an error, redirect to initialization screen
+        next({
+            path: '/initializing',
+            query: { target: to.fullPath }
+        })
+    }
+})
 
 export {router}
