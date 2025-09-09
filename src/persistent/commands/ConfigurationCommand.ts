@@ -56,7 +56,12 @@ export class ConfigurationCommand extends Command {
                 ServerUrl: configuration.ServerUrl,
                 ServerToken: configuration.ServerToken,
                 CreatedOn: configuration.CreatedOn,
-                State: configuration.State
+                State: configuration.State,
+                // P2P Configuration fields
+                IsP2PEnabled: configuration.IsP2PEnabled,
+                SignalingServerUrl: configuration.SignalingServerUrl,
+                SignalingServerWsUrl: configuration.SignalingServerWsUrl,
+                P2PDefaultRoom: configuration.P2PDefaultRoom
             },
             where: {
                 ConfigurationId: configuration.ConfigurationId

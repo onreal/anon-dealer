@@ -33,6 +33,27 @@ export class ConfigurationRepository extends Repository{
                 dataType: DATA_TYPE.DateTime,
                 notNull: true,
                 encrypt: true
+            },
+            // P2P Configuration fields
+            IsP2PEnabled: {
+                dataType: DATA_TYPE.Boolean,
+                notNull: true,
+                encrypt: true
+            },
+            SignalingServerUrl: {
+                dataType: DATA_TYPE.String,
+                notNull: false,
+                encrypt: true
+            },
+            SignalingServerWsUrl: {
+                dataType: DATA_TYPE.String,
+                notNull: false,
+                encrypt: true
+            },
+            P2PDefaultRoom: {
+                dataType: DATA_TYPE.String,
+                notNull: false,
+                encrypt: true
             }
         }
     };
