@@ -6,12 +6,17 @@
       <div class="p2p-status">
         <!-- Signaling Server Status -->
         <div class="signaling-status">
-          <el-tag 
-            :type="signalingStatus === 'connected' ? 'success' : signalingStatus === 'connecting' ? 'warning' : 'danger'"
-            :icon="getSignalingIcon()"
+          <el-tooltip 
+            :content="getSignalingTooltipText()" 
+            placement="top"
           >
-            {{ getSignalingStatusText() }}
-          </el-tag>
+            <el-tag 
+              :type="signalingStatus === 'connected' ? 'success' : signalingStatus === 'connecting' ? 'warning' : 'danger'"
+              :icon="getSignalingIcon()"
+            >
+              {{ getSignalingStatusText() }}
+            </el-tag>
+          </el-tooltip>
           <el-tooltip content="Refresh signaling server status" placement="top">
             <el-button 
               size="small" 
@@ -293,34 +298,48 @@ const checkSignalingServerStatus = async () => {
       return;
     }
     
-    // Try to ping the signaling server
-    const response = await fetch('http://localhost:8080/health', {
-      method: 'GET',
-      mode: 'no-cors' // This will work even if CORS is not configured
-    }).catch(() => {
-      // If fetch fails, try WebSocket connection
-      return new Promise((resolve, reject) => {
-        const ws = new WebSocket('ws://localhost:8080');
-        const timeout = setTimeout(() => {
-          ws.close();
-          reject(new Error('Connection timeout'));
-        }, 5000);
-        
-        ws.onopen = () => {
-          clearTimeout(timeout);
-          ws.close();
-          resolve({ ok: true });
-        };
-        
-        ws.onerror = () => {
-          clearTimeout(timeout);
-          reject(new Error('WebSocket connection failed'));
-        };
-      });
-    });
+    // Use a simple fetch request to test connectivity
+    // We'll use a method that doesn't trigger CORS preflight
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
     
-    signalingStatus.value = 'connected';
+    try {
+      // Use a simple GET request that should work even with CORS
+      const response = await fetch('http://localhost:8080/health', {
+        method: 'GET',
+        signal: controller.signal,
+        mode: 'cors', // Try CORS first
+        credentials: 'omit'
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (response.ok) {
+        signalingStatus.value = 'connected';
+        return;
+      } else {
+        throw new Error('Server responded with error');
+      }
+    } catch (corsError) {
+      clearTimeout(timeoutId);
+      
+      // If CORS fails, try with no-cors mode
+      try {
+        const response = await fetch('http://localhost:8080/health', {
+          method: 'GET',
+          signal: controller.signal,
+          mode: 'no-cors'
+        });
+        
+        // With no-cors, we can't read the response, but if it doesn't throw, server is reachable
+        signalingStatus.value = 'connected';
+        return;
+      } catch (noCorsError) {
+        throw new Error('Server not reachable');
+      }
+    }
   } catch (error) {
+    // Log the actual error for debugging
     console.error('Signaling server connection failed:', error);
     signalingStatus.value = 'error';
   }
@@ -329,13 +348,13 @@ const checkSignalingServerStatus = async () => {
 const getSignalingStatusText = () => {
   switch (signalingStatus.value) {
     case 'connected':
-      return 'Signaling Server Connected';
+      return 'Signaling Server Online';
     case 'connecting':
-      return 'Connecting...';
+      return 'Checking Connection...';
     case 'error':
       return 'Signaling Server Offline';
     default:
-      return 'Signaling Server Disconnected';
+      return 'Not Connected';
   }
 };
 
@@ -349,6 +368,19 @@ const getSignalingIcon = () => {
       return CircleClose;
     default:
       return CircleClose;
+  }
+};
+
+const getSignalingTooltipText = () => {
+  switch (signalingStatus.value) {
+    case 'connected':
+      return 'Signaling server is running and accessible. P2P connections can be established.';
+    case 'connecting':
+      return 'Checking connection to signaling server...';
+    case 'error':
+      return 'Cannot connect to signaling server. Check if server is running on port 8080.';
+    default:
+      return 'No peer identity created. Create a peer to enable P2P functionality.';
   }
 };
 
@@ -496,11 +528,19 @@ const startStatusCheck = () => {
     clearInterval(statusCheckInterval);
   }
   
+  // Initial check after a short delay
+  setTimeout(async () => {
+    if (currentPeer.value) {
+      await checkSignalingServerStatus();
+    }
+  }, 1000);
+  
+  // Then check every 15 seconds
   statusCheckInterval = setInterval(async () => {
     if (currentPeer.value) {
       await checkSignalingServerStatus();
     }
-  }, 10000); // Check every 10 seconds
+  }, 15000);
 };
 
 const stopStatusCheck = () => {
