@@ -1,12 +1,35 @@
 {
   "name": "anon-dealer",
-  "private": true,
-  "version": "0.2.1",
+  "version": "1.0.0",
+  "description": "Anonymous Business Management System - Secure, privacy-focused business management with local data storage and encryption",
+  "keywords": [
+    "business",
+    "management",
+    "inventory",
+    "privacy",
+    "encryption",
+    "p2p",
+    "vue",
+    "offline"
+  ],
+  "author": "Anon Dealer Contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/anon-dealer#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/anon-dealer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/anon-dealer/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:css": "sass src/assets/scss/main.scss src/assets/css/main.css --watch",
+    "build:css:prod": "sass src/assets/scss/main.scss src/assets/css/main.css --style=compressed",
+    "start-signaling": "node -e \"import('./src/p2p/infrastructure/signaling/SignalingServer.ts').then(m => m.startSignalingServer(8080))\""
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.12.2",
@@ -19,9 +42,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.92.1",
     "typescript": "^5.0.2",
     "vite": "^4.5.2",
-    "sass": "^1.49.8",
     "vue-tsc": "^1.8.5"
   }
 }
