@@ -1,12 +1,14 @@
 import { PeerCommand } from '../commands/PeerCommand';
 import { WebRTCService } from '../../infrastructure/communication/WebRTCService';
 import { Peer, PeerConnection, P2POrder, ItemVisibility, VisibilityType, AccessLevel } from '../../domain/models/Peer';
+import { useP2PConfig } from '../../../composables/P2PConfig';
 
 export class P2PService {
   private static instance: P2PService;
   private peerCommand: PeerCommand;
   private webRTCService: WebRTCService;
   private isInitialized: boolean = false;
+  private p2pConfig = useP2PConfig();
 
   private constructor() {
     this.peerCommand = new PeerCommand();
@@ -25,11 +27,23 @@ export class P2PService {
     if (this.isInitialized) return;
 
     try {
+      // Check if P2P is enabled
+      if (!this.p2pConfig.isP2PEnabled.value) {
+        console.log('P2P is disabled, skipping initialization');
+        return;
+      }
+
       const currentPeer = await this.peerCommand.getCurrentPeer();
       if (currentPeer) {
-        await this.webRTCService.initialize(currentPeer, signalingServer);
-        this.setupMessageHandlers();
-        this.isInitialized = true;
+        // Use configured signaling server or fallback to parameter
+        const serverUrl = signalingServer || this.p2pConfig.getWebSocketUrl();
+        if (serverUrl) {
+          await this.webRTCService.initialize(currentPeer, serverUrl);
+          this.setupMessageHandlers();
+          this.isInitialized = true;
+        } else {
+          console.warn('No signaling server URL configured');
+        }
       }
     } catch (error) {
       console.error('Failed to initialize P2P service:', error);
