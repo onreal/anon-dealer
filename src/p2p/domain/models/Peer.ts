@@ -13,6 +13,8 @@ export interface PeerConnection {
   connectionId: string;
   peerAId: string;
   peerBId: string;
+  peerAName?: string;
+  peerBName?: string;
   invitationCode: string;
   status: ConnectionStatus;
   accessLevel: AccessLevel;

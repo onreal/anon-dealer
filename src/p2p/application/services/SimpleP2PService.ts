@@ -72,74 +72,143 @@ export class SimpleP2PService {
       throw new Error('No current peer found. Please create a peer first.');
     }
 
-    const invitationId = this.generateInvitationId();
-    const invitationCode = this.generateInvitationCode();
-    const expiresAt = new Date(Date.now() + expiresInHours * 60 * 60 * 1000);
+    try {
+      // Create invitation through signaling server
+      const response = await fetch('http://localhost:8080/api/invitations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fromPeerId: this.currentPeer.peerId,
+          accessLevel,
+          expiresInHours,
+          fromPeerName: this.currentPeer.name
+        })
+      });
 
-    const invitation: PeerInvitation = {
-      invitationId,
-      fromPeerId: this.currentPeer.peerId,
-      invitationCode,
-      accessLevel,
-      expiresAt,
-      isUsed: false,
-      createdAt: new Date()
-    };
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create invitation');
+      }
 
-    this.invitations.set(invitationId, invitation);
-    await this.saveToLocalStorage();
-    return invitation;
+      const invitation = await response.json();
+      
+      // Convert server response to local format
+      const localInvitation: PeerInvitation = {
+        invitationId: invitation.invitationId,
+        fromPeerId: invitation.fromPeerId,
+        invitationCode: invitation.invitationCode,
+        accessLevel: invitation.accessLevel,
+        expiresAt: new Date(invitation.expiresAt),
+        isUsed: invitation.isUsed,
+        createdAt: new Date(invitation.createdAt)
+      };
+
+      // Store locally for reference
+      this.invitations.set(invitation.invitationId, localInvitation);
+      await this.saveToLocalStorage();
+      
+      return localInvitation;
+    } catch (error) {
+      console.error('Error creating invitation:', error);
+      throw error;
+    }
   }
 
   async acceptInvitation(invitationCode: string, peerName: string): Promise<PeerConnection> {
-    const invitation = this.findInvitationByCode(invitationCode);
-    
-    if (!invitation) {
-      throw new Error('Invalid invitation code');
-    }
-
-    if (invitation.isUsed) {
-      throw new Error('Invitation has already been used');
-    }
-
-    if (invitation.expiresAt < new Date()) {
-      throw new Error('Invitation has expired');
-    }
-
     if (!this.currentPeer) {
       throw new Error('No current peer found. Please create a peer first.');
     }
 
-    // Mark invitation as used
-    invitation.isUsed = true;
-    invitation.usedByPeerId = this.currentPeer.peerId;
+    try {
+      // Accept invitation through signaling server
+      const response = await fetch(`http://localhost:8080/api/invitations/${invitationCode}/accept`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          peerId: this.currentPeer.peerId,
+          peerName
+        })
+      });
 
-    // Create connection
-    const connectionId = this.generateConnectionId();
-    const connection: PeerConnection = {
-      connectionId,
-      peerAId: invitation.fromPeerId,
-      peerBId: this.currentPeer.peerId,
-      invitationCode,
-      status: ConnectionStatus.ACTIVE,
-      accessLevel: invitation.accessLevel,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      lastActivity: new Date()
-    };
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to accept invitation');
+      }
 
-    this.connections.set(connectionId, connection);
-    await this.saveToLocalStorage();
-    return connection;
+      const connectionData = await response.json();
+      
+      // Convert server response to local format
+      const connection: PeerConnection = {
+        connectionId: connectionData.connectionId,
+        peerAId: connectionData.peerAId,
+        peerBId: connectionData.peerBId,
+        invitationCode: connectionData.invitationCode,
+        status: ConnectionStatus.ACTIVE,
+        accessLevel: connectionData.accessLevel,
+        createdAt: new Date(connectionData.createdAt),
+        updatedAt: new Date(connectionData.updatedAt),
+        lastActivity: new Date(connectionData.lastActivity)
+      };
+
+      // Store locally
+      this.connections.set(connection.connectionId, connection);
+      await this.saveToLocalStorage();
+      
+      return connection;
+    } catch (error) {
+      console.error('Error accepting invitation:', error);
+      throw error;
+    }
   }
 
   // Connection Management
   async getConnections(): Promise<PeerConnection[]> {
     if (!this.currentPeer) return [];
     
-    return Array.from(this.connections.values()).filter(
-      conn => conn.peerAId === this.currentPeer!.peerId || conn.peerBId === this.currentPeer!.peerId
-    );
+    try {
+      // Fetch connections from server
+      const response = await fetch(`http://localhost:8080/api/peers/${this.currentPeer.peerId}/connections`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch connections');
+      }
+
+      const serverConnections = await response.json();
+      
+      // Convert server format to local format
+      const connections: PeerConnection[] = serverConnections.map((conn: any) => ({
+        connectionId: conn.connectionId,
+        peerAId: conn.peerAId,
+        peerBId: conn.peerBId,
+        peerAName: conn.peerAName,
+        peerBName: conn.peerBName,
+        invitationCode: conn.invitationCode,
+        status: ConnectionStatus.ACTIVE, // Server only stores active connections
+        accessLevel: conn.accessLevel,
+        createdAt: new Date(conn.createdAt),
+        updatedAt: new Date(conn.updatedAt),
+        lastActivity: new Date(conn.lastActivity)
+      }));
+
+      // Update local storage
+      this.connections.clear();
+      connections.forEach(conn => {
+        this.connections.set(conn.connectionId, conn);
+      });
+      await this.saveToLocalStorage();
+
+      return connections;
+    } catch (error) {
+      console.error('Error fetching connections from server:', error);
+      // Fallback to local storage
+      return Array.from(this.connections.values()).filter(
+        conn => conn.peerAId === this.currentPeer!.peerId || conn.peerBId === this.currentPeer!.peerId
+      );
+    }
   }
 
   async getActiveConnections(): Promise<PeerConnection[]> {
@@ -299,9 +368,6 @@ export class SimpleP2PService {
     };
   }
 
-  private findInvitationByCode(code: string): PeerInvitation | undefined {
-    return Array.from(this.invitations.values()).find(inv => inv.invitationCode === code);
-  }
 
   private findConnectionBetweenPeers(peerAId: string, peerBId: string): PeerConnection | undefined {
     return Array.from(this.connections.values()).find(
@@ -323,6 +389,67 @@ export class SimpleP2PService {
         return connection?.status === ConnectionStatus.ACTIVE;
       default:
         return false;
+    }
+  }
+
+  // Inventory Synchronization
+  async syncInventoryWithPeers(): Promise<void> {
+    if (!this.currentPeer) return;
+
+    try {
+      // Get all active connections
+      const connections = await this.getActiveConnections();
+      
+      for (const connection of connections) {
+        const otherPeerId = connection.peerAId === this.currentPeer.peerId 
+          ? connection.peerBId 
+          : connection.peerAId;
+        
+        // Fetch inventory from the other peer
+        await this.fetchPeerInventory(otherPeerId);
+      }
+    } catch (error) {
+      console.error('Error syncing inventory with peers:', error);
+    }
+  }
+
+  async fetchPeerInventory(peerId: string): Promise<any[]> {
+    try {
+      const response = await fetch(`http://localhost:8080/api/peers/${peerId}/inventory`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch peer inventory');
+      }
+
+      const inventory = await response.json();
+      console.log(`Fetched inventory from peer ${peerId}:`, inventory);
+      return inventory;
+    } catch (error) {
+      console.error(`Error fetching inventory from peer ${peerId}:`, error);
+      return [];
+    }
+  }
+
+  async shareInventoryWithPeers(items: any[]): Promise<void> {
+    if (!this.currentPeer) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/peers/${this.currentPeer.peerId}/inventory`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to share inventory');
+      }
+
+      console.log(`Shared inventory with peers:`, { count: items.length });
+    } catch (error) {
+      console.error('Error sharing inventory:', error);
+      throw error;
     }
   }
 
