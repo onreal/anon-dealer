@@ -128,38 +128,6 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-.p2p-test-page {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.test-section {
-  margin-bottom: 30px;
-  padding: 20px;
-  border: 1px solid var(--el-border-color);
-  border-radius: 8px;
-  background: var(--el-bg-color);
-}
-
-.test-section h2 {
-  margin-top: 0;
-  color: var(--el-text-color-primary);
-}
-
-.status-info {
-  background: var(--el-fill-color-light);
-  padding: 15px;
-  border-radius: 6px;
-}
-
-.status-info p {
-  margin: 8px 0;
-  color: var(--el-text-color-regular);
-}
-
-.status-info strong {
-  color: var(--el-text-color-primary);
-}
+<style lang="scss" scoped>
+@import 'src/assets/scss/pages/p2p/_p2p-test-page.scss';
 </style>

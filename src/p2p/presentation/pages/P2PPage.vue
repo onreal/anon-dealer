@@ -30,27 +30,6 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-.p2p-page {
-  background: var(--el-bg-color-page);
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-  gap: 20px;
-}
-
-.loading-container .el-icon {
-  font-size: 32px;
-  color: var(--el-color-primary);
-}
-
-.loading-container p {
-  color: var(--el-text-color-regular);
-  font-size: 16px;
-}
+<style lang="scss" scoped>
+@import 'src/assets/scss/pages/p2p/_p2p-page.scss';
 </style>

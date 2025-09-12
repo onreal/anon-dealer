@@ -1,41 +1,34 @@
 // P2P Test Page Styles
 .p2p-test-page {
-  background: var(--bg-secondary);
-  padding: var(--spacing-lg);
-  
-  .p2p-test-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .p2p-test-header {
-    margin-bottom: var(--spacing-xl);
-    
-    h1 {
-      color: var(--text-primary);
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: var(--spacing-sm);
-    }
-    
-    p {
-      color: var(--text-secondary);
-      font-size: 16px;
-    }
-  }
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-// Dark mode styles
-.dark {
-  .p2p-test-page {
-    background: var(--bg-darker);
-    
-    .p2p-test-header h1 {
-      color: var(--text-white);
-    }
-    
-    .p2p-test-header p {
-      color: var(--text-secondary);
-    }
-  }
+.test-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid var(--el-border-color);
+  border-radius: 8px;
+  background: var(--el-bg-color);
+}
+
+.test-section h2 {
+  margin-top: 0;
+  color: var(--el-text-color-primary);
+}
+
+.status-info {
+  background: var(--el-fill-color-light);
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.status-info p {
+  margin: 8px 0;
+  color: var(--el-text-color-regular);
+}
+
+.status-info strong {
+  color: var(--el-text-color-primary);
 }

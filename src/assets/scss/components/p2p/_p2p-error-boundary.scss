@@ -1,50 +1,30 @@
 // P2P Error Boundary Component Styles
-.p2p-error-boundary {
-  @include card;
-  text-align: center;
-  padding: var(--spacing-2xl);
-  
-  .error-icon {
-    font-size: 48px;
-    color: var(--danger-color);
-    margin-bottom: var(--spacing-lg);
-  }
-  
-  .error-title {
-    color: var(--text-primary);
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: var(--spacing-md);
-  }
-  
-  .error-message {
-    color: var(--text-secondary);
-    font-size: 16px;
-    margin-bottom: var(--spacing-lg);
-  }
-  
-  .error-actions {
-    display: flex;
-    gap: var(--spacing-md);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .retry-button {
-    @include button-primary;
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
+.error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 20px;
 }
 
-// Dark mode styles
-.dark {
-  .p2p-error-boundary {
-    .error-title {
-      color: var(--text-white);
-    }
-    
-    .error-message {
-      color: var(--text-secondary);
-    }
-  }
+.error-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.error-icon {
+  font-size: 48px;
+  color: var(--el-color-danger);
+  margin-bottom: 20px;
+}
+
+.error-content h3 {
+  margin: 0 0 15px 0;
+  color: var(--el-text-color-primary);
+}
+
+.error-content p {
+  margin: 0 0 20px 0;
+  color: var(--el-text-color-regular);
+  line-height: 1.5;
 }

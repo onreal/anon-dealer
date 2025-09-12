@@ -1,71 +1,245 @@
 // Inventory Drawer Component Styles
-.inventory-drawer {
-  @include card;
-  
-  .drawer-header {
-    @include flex-between;
-    margin-bottom: var(--spacing-lg);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 1px solid var(--border-light);
-    
-    h3 {
-      color: var(--text-primary);
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0;
-    }
-  }
-  
-  .drawer-content {
-    .form-section {
-      margin-bottom: var(--spacing-lg);
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-      
-      h4 {
-        color: var(--text-primary);
-        font-size: 16px;
-        font-weight: 600;
-        margin: 0 0 var(--spacing-md) 0;
-      }
-    }
-    
-    .form-actions {
-      display: flex;
-      gap: var(--spacing-md);
-      justify-content: flex-end;
-      margin-top: var(--spacing-lg);
-      padding-top: var(--spacing-md);
-      border-top: 1px solid var(--border-light);
-      
-      @include mobile {
-        flex-direction: column;
-      }
-    }
-  }
+/* Dark mode styles for drawer */
+html.dark :deep(.el-drawer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
 }
 
-// Dark mode styles
-.dark {
-  .inventory-drawer {
-    .drawer-header {
-      border-color: var(--border-dark);
-      
-      h3 {
-        color: var(--text-white);
-      }
-    }
-    
-    .drawer-content {
-      .form-section h4 {
-        color: var(--text-white);
-      }
-      
-      .form-actions {
-        border-color: var(--border-dark);
-      }
-    }
-  }
+html.dark :deep(.el-drawer__header) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-bottom-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__body) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__footer) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-top-color: #334155 !important;
+}
+
+html.dark :deep(.el-drawer__title) {
+  color: #f8fafc !important;
+}
+
+html.dark :deep(.el-drawer__close-btn) {
+  color: #f8fafc !important;
+}
+
+.inventory-drawer {
+  --el-drawer-bg-color: #f8f9fa;
+}
+
+.drawer-header {
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.drawer-header h2 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.drawer-header p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.inventory-steps {
+  margin-bottom: 30px;
+  padding: 20px 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-form {
+  padding: 20px 0;
+}
+
+.form-step {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.form-step h3 {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.field-hint {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-top: 4px;
+}
+
+.item-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-type {
+  font-size: 12px;
+  color: #7f8c8d;
+  background: #f0f4ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.cost-calculation {
+  margin-top: 16px;
+}
+
+.multiplier-section {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.multiplier-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.multiplier-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.multiplier-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.drawer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 0 0;
+  border-top: 1px solid #e9ecef;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-center {
+  flex: 1;
+  justify-content: center;
+}
+
+.footer-right {
+  justify-content: flex-end;
+}
+
+.el-form-item {
+  margin-bottom: 20px;
+}
+
+.el-form-item__label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.el-input, .el-select, .el-input-number {
+  width: 100%;
+}
+
+.el-slider {
+  margin: 20px 0;
+}
+
+.el-steps {
+  padding: 0 20px;
+}
+
+.el-step__title {
+  font-weight: 600;
+}
+
+.el-step__description {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* Dark Mode Styles */
+.dark .el-drawer {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__header {
+  background-color: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__body {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.dark .el-drawer__footer {
+  background-color: #1e293b !important;
+  border-top-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .drawer-header h2 {
+  color: #f8fafc;
+}
+
+.dark .drawer-header p {
+  color: #cbd5e1;
+}
+
+.dark .form-section {
+  border-bottom-color: #334155;
+}
+
+.dark .form-section h3 {
+  color: #f8fafc;
+}
+
+.dark .field-hint {
+  color: #cbd5e1;
+}
+
+.dark .drawer-footer {
+  border-top-color: #334155;
+}
+
+.dark .el-form-item__label {
+  color: #f8fafc;
+}
+
+.dark .el-step__description {
+  color: #cbd5e1;
 }

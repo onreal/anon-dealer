@@ -15,13 +15,7 @@ export default {
 }
 </script>
 
-<style scoped>
-.inventory-page {
-  background-color: #f5f7fa;
-}
-
-.dark .inventory-page {
-  background-color: #0f172a;
-}
+<style lang="scss" scoped>
+@import 'src/assets/scss/pages/_inventory.scss';
 </style>
 

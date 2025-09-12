@@ -29,34 +29,6 @@ const retry = () => {
 };
 </script>
 
-<style scoped>
-.error-boundary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-  padding: 20px;
-}
-
-.error-content {
-  text-align: center;
-  max-width: 400px;
-}
-
-.error-icon {
-  font-size: 48px;
-  color: var(--el-color-danger);
-  margin-bottom: 20px;
-}
-
-.error-content h3 {
-  margin: 0 0 15px 0;
-  color: var(--el-text-color-primary);
-}
-
-.error-content p {
-  margin: 0 0 20px 0;
-  color: var(--el-text-color-regular);
-  line-height: 1.5;
-}
+<style lang="scss" scoped>
+@import 'src/assets/scss/components/p2p/_p2p-error-boundary.scss';
 </style>

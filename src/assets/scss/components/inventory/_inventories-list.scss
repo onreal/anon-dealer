@@ -1,85 +1,113 @@
 // Inventories List Component Styles
 .inventories-list {
-  @include card;
-  
-  .inventories-header {
-    @include flex-between;
-    margin-bottom: var(--spacing-lg);
-    
-    h3 {
-      color: var(--text-primary);
-      font-size: 20px;
-      font-weight: 600;
-      margin: 0;
-    }
-  }
-  
-  .inventories-grid {
-    display: grid;
-    gap: var(--spacing-md);
-    grid-template-columns: 1fr;
-    
-    @include tablet {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    @include desktop {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  .inventory-card {
-    @include card;
-    padding: var(--spacing-md);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .inventory-name {
-      color: var(--text-primary);
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: var(--spacing-xs);
-    }
-    
-    .inventory-description {
-      color: var(--text-secondary);
-      font-size: 14px;
-      margin-bottom: var(--spacing-sm);
-    }
-    
-    .inventory-stats {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-light);
-    }
-  }
+  padding: 20px;
 }
 
-// Dark mode styles
-.dark {
-  .inventories-list {
-    .inventories-header h3 {
-      color: var(--text-white);
-    }
-    
-    .inventory-card {
-      .inventory-name {
-        color: var(--text-white);
-      }
-      
-      .inventory-description {
-        color: var(--text-secondary);
-      }
-      
-      .inventory-stats {
-        color: var(--text-light);
-      }
-    }
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-header h3 {
+  margin: 0;
+  color: #303133;
+}
+
+.loading-container {
+  padding: 20px;
+}
+
+.empty-state {
+  padding: 40px;
+  text-align: center;
+}
+
+.inventories-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.el-table {
+  width: 100%;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  margin-right: 0 !important;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.action-btn .el-icon {
+  font-size: 14px;
+}
+
+.reports-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+}
+
+.reports-btn:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  border-color: #5a6fd8;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-color: #f093fb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #e085f0 0%, #e54a5b 100%);
+  border-color: #e085f0;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  border-color: #ff6b6b;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #ff5252 0%, #e53935 100%);
+  border-color: #ff5252;
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    gap: 6px;
+  }
+  
+  .action-btn {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .action-btn .el-icon {
+    font-size: 12px;
   }
 }

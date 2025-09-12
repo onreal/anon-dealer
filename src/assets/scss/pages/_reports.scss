@@ -1,0 +1,272 @@
+// Reports Page Styles
+.reports-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.header-content h1 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+  font-size: 2rem;
+}
+
+.header-content p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.loading-container {
+  padding: 40px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: white;
+}
+
+.card-icon.profit { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.card-icon.revenue { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.card-icon.margin { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.card-icon.turnover { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+.card-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.card-content p {
+  margin: 0 0 8px 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.trend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.trend.positive { background: #d4edda; color: #155724; }
+.trend.negative { background: #f8d7da; color: #721c24; }
+.trend.neutral { background: #e2e3e5; color: #383d41; }
+
+.dark .trend.positive { background: #14532d; color: #bbf7d0; }
+.dark .trend.negative { background: #7f1d1d; color: #fecaca; }
+.dark .trend.neutral { background: #374151; color: #d1d5db; }
+
+.charts-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.chart-container h3 {
+  margin: 0 0 20px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.chart {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mock-chart {
+  text-align: center;
+  color: #6c757d;
+}
+
+.chart-title {
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2c3e50;
+}
+
+.chart-placeholder {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.analytics-section {
+  margin-top: 30px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.analytics-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-primary);
+}
+
+.analytics-card h3 {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  border-bottom: 2px solid var(--border-primary);
+  padding-bottom: 8px;
+}
+
+.performance-item, .forecast-item, .velocity-item {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+}
+
+.item-info, .forecast-info, .velocity-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.item-name, .forecast-name, .velocity-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.item-profit, .velocity-rate {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.forecast-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.forecast-status.healthy { background: #d4edda; color: #155724; }
+.forecast-status.warning { background: #fff3cd; color: #856404; }
+.forecast-status.low { background: #f8d7da; color: #721c24; }
+.forecast-status.critical { background: #f5c6cb; color: #721c24; }
+
+.dark .forecast-status.healthy { background: #14532d; color: #bbf7d0; }
+.dark .forecast-status.warning { background: #78350f; color: #fde68a; }
+.dark .forecast-status.low { background: #7f1d1d; color: #fecaca; }
+.dark .forecast-status.critical { background: #991b1b; color: #fca5a5; }
+
+.forecast-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.profit-bar, .velocity-bar {
+  height: 6px;
+  background: var(--border-primary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.profit-fill, .velocity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745, #20c997);
+  transition: width 0.3s ease;
+}
+
+.margin-analysis {
+  space-y: 12px;
+}
+
+.margin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+  margin-bottom: 12px;
+}
+
+.margin-label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.margin-count {
+  background: #007bff;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .reports-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -15,13 +15,7 @@ export default {
 }
 </script>
 
-<style scoped>
-.items-page {
-  background-color: #f5f7fa;
-}
-
-.dark .items-page {
-  background-color: #0f172a;
-}
+<style lang="scss" scoped>
+@import 'src/assets/scss/pages/_items.scss';
 </style>
 
